@@ -4,9 +4,11 @@ import './App.css';
 
 class App extends React.Component {
   componentDidMount() {
-    fetch('http://127.0.0.1:5000/')
-      .then(res => res.json())
-      .then(data => console.log(data));
+    setInterval(() => {
+      fetch('http://192.168.1.10:5000')
+        .then(res => res.json())
+        .then(data => console.log(data));
+    }, 3000);
   }
 
   render() {
