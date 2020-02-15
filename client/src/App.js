@@ -20,7 +20,9 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <h3>{this.state.temp}°C</h3>
+        <div className="Button">
+          <h3>{this.state.temp}°C</h3>
+        </div>
       </div>
     );
   }
