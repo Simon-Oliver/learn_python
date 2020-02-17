@@ -3,9 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends React.Component {
-  state = {
-    temp: 0
-  };
+  state = {};
 
   componentDidMount() {
     setInterval(() => {
@@ -13,19 +11,25 @@ class App extends React.Component {
         .then(res => res.json())
         .then(data => {
           console.log(data);
-          this.setState({ temp: data.temp });
+          this.setState({ ...data });
         });
     }, 3000);
   }
 
-  render() {
-    return (
-      <div className="App">
+  renderButtons = obj => {
+    const list = Object.keys(obj).map(function(item) {
+      return (
         <div className="Button">
-          <h3>{this.state.temp}°C</h3>
+          <h3>{`${obj[item]}${item === 'percent' ? '%' : '°C'}`}</h3>
         </div>
-      </div>
-    );
+      );
+    });
+
+    return list;
+  };
+
+  render() {
+    return <div className="App">{this.state ? this.renderButtons(this.state) : null}</div>;
   }
 }
 

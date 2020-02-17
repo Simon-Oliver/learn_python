@@ -16,6 +16,7 @@
   border-radius: 20px;
   background: #313030;
   box-shadow: 31px 31px 62px #242323, -31px -31px 62px #3e3d3d;
+  margin-left: 30px;
 }
 
 .Button h3 {
@@ -23,7 +24,3 @@
   color: #f38e00;
   text-shadow: 20px 20px 60px #cf7900, -20px -20px 60px #ffa300;
 }
-
-color: #ffbf00;
-text-shadow: inset 20px 20px 60px #cf7900, inset -20px -20px 60px #ffa300;
-background-clip: text;
