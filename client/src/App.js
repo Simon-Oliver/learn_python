@@ -13,7 +13,7 @@ class App extends React.Component {
           console.log(data);
           this.setState({ ...data });
         });
-    }, 3000);
+    }, 1000);
   }
 
   renderButtons = obj => {
