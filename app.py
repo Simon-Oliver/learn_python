@@ -40,3 +40,27 @@ def read_temp():
     cpu_temp_s = dev.read()[5:-3]  # top and tail string
     cpu_temp = float(cpu_temp_s)
     return cpu_temp
+
+
+@app.route('/exchange')
+def exchange():
+    response.headers.add('Access-Control-Allow.Origin', '*')
+    response.headers.add('Content-Type', 'application/json')
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Methods',
+                         'PUT, GET, POST, DELETE, OPTIONS')
+    response.headers.add('Access-Control-Allow-Headers',
+                         'Content-Type,Authorization')
+    response.headers.add('Access-Control-Expose-Headers',
+                         'Content-Type,Content-Length,Authorization,X-Pagination')
+
+    xml = requests.get(
+        'http://www.pwebapps.ezv.admin.ch/apps/rates/rate/getxml?activeSearchType=today')
+    tree = ElementTree.fromstring(xml.content)
+    for devise in tree.findall('{http://www.pwebapps.ezv.admin.ch/apps/rates}devise'):
+        name = devise.get('code')
+        kurs = devise.find(
+            '{http://www.pwebapps.ezv.admin.ch/apps/rates}kurs').text
+        if(name == 'aud'):
+            response = jsonify({'kurs': kurs})
+            return response

@@ -14,6 +14,12 @@ class App extends React.Component {
           this.setState({ ...data });
         });
     }, 1000);
+
+    fetch('http://192.168.1.10:5000/exchange')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      });
   }
 
   renderButtons = obj => {
