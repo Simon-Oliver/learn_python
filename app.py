@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 import cpu_temp
+import temp_sensor
 import psutil
 import requests
 from xml.etree import ElementTree
@@ -43,3 +44,19 @@ def exchange():
             response.headers.add('Access-Control-Expose-Headers',
                                  'Content-Type,Content-Length,Authorization,X-Pagination')
             return response
+
+
+@app.route('/temp')
+def temp():
+    temp = temp_sensor.read_temp()
+    response = jsonify({'temp': temp})
+    response.headers.add('Access-Control-Allow.Origin', '*')
+    response.headers.add('Content-Type', 'application/json')
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Methods',
+                         'PUT, GET, POST, DELETE, OPTIONS')
+    response.headers.add('Access-Control-Allow-Headers',
+                         'Content-Type,Authorization')
+    response.headers.add('Access-Control-Expose-Headers',
+                         'Content-Type,Content-Length,Authorization,X-Pagination')
+    return response
