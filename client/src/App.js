@@ -3,7 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends React.Component {
-  state = {};
+  state = {
+    testemp: 28
+  };
 
   componentDidMount() {
     setInterval(() => {
@@ -50,7 +52,22 @@ class App extends React.Component {
   };
 
   render() {
-    return <div className="App">{this.state ? this.renderButtons(this.state) : null}</div>;
+    return (
+      <div className="App">
+        <div className="container-sqr">{this.state ? this.renderButtons(this.state) : null}</div>
+
+        <div className="square">
+          <div class="container">
+            <div class="gauge-a"></div>
+            <div class="gauge-b"></div>
+            <div class="gauge-c"></div>
+            <div class="gauge-data">
+              <h1 id="percent">0%</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 

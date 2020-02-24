@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-flow: column;
   background: #313030;
 }
 
@@ -12,7 +13,6 @@
   align-items: center;
   width: 200px;
   height: 200px;
-
   border-radius: 20px;
   background: #313030;
   box-shadow: 31px 31px 62px #242323, -31px -31px 62px #3e3d3d;
@@ -23,4 +23,90 @@
   font-size: 50px;
   color: #f38e00;
   text-shadow: 20px 20px 60px #cf7900, -20px -20px 60px #ffa300;
+}
+
+
+.container-sqr {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: #313030;
+}
+
+
+.gauge-a {
+  z-index: 1;
+  position: absolute;
+  background-color: rgba(255, 255, 255, .2);
+  width: 400px;
+  height: 200px;
+  top: 0%;
+  border-radius: 250px 250px 0px 0px;
+}
+
+.gauge-b {
+  z-index: 3;
+  position: absolute;
+  background-color: #222;
+  width: 250px;
+  height: 125px;
+  top: 75px;
+  margin-left: 75px;
+  margin-right: auto;
+  border-radius: 250px 250px 0px 0px;
+}
+
+.gauge-c {
+  z-index: 2;
+  position: absolute;
+  background-color: #5664F9;
+  width: 400px;
+  height: 200px;
+  top: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 0px 0px 200px 200px;
+  transform-origin: center top;
+  transition: all 1.3s ease-in-out;
+}
+
+.gauge-c {
+  transform: rotate(90deg);
+}
+
+.gauge-data {
+  color: rgba(255, 255, 255, 1);
+}
+
+.gauge-data {
+  z-index: 4;
+  color: rgba(255, 255, 255, .2);
+  font-size: 1.5em;
+  line-height: 25px;
+  position: absolute;
+  width: 400px;
+  height: 200px;
+  top: 90px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 1s ease-out;
+}
+
+.square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 400px;
+  height: 200px;
+
+}
+
+.container {
+  position: absolute;
+  width: 400px;
+  height: 200px;
+  overflow: hidden;
+  text-align: center;
+
 }
