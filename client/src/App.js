@@ -37,6 +37,11 @@ class App extends React.Component {
           kurs: Math.round((Number(data.kurs) + Number.EPSILON) * 100) / 100
         }));
       });
+
+    setInterval(() => {
+      var newVal = Math.floor(Math.random() * 179 + 1);
+      this.setState({ style: { transform: `rotate(-${newVal}deg)` } });
+    }, 1000);
   }
 
   renderButtons = obj => {
@@ -60,7 +65,8 @@ class App extends React.Component {
           <div class="container">
             <div class="gauge-a"></div>
             <div class="gauge-b"></div>
-            <div class="gauge-c"></div>
+            <div class="gauge-c" style={this.state.style}></div>
+            <div className="rainbow"></div>
             <div class="gauge-data">
               <h1 id="percent">0%</h1>
             </div>
