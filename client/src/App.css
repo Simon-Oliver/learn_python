@@ -38,7 +38,8 @@
   z-index: 1;
   position: absolute;
   /* background: linear-gradient(to right, red 20%, yellow 40%, green 60%, yellow 80%, red 100%); */
-  background: linear-gradient(to right, rgba(255, 0, 0, 1) 0%, rgba(255, 245, 0, 1) 30%, rgba(10, 255, 0, 1) 50%, rgba(255, 245, 0, 1) 70%, rgba(255, 0, 0, 1) 100%);
+  /* background: linear-gradient(to right, rgba(255, 0, 0, 1) 0%, rgba(255, 245, 0, 1) 30%, rgba(10, 255, 0, 1) 50%, rgba(255, 245, 0, 1) 70%, rgba(255, 0, 0, 1) 100%); */
+  background: linear-gradient(to right, red 0%, yellow 50%, green 100%);
   width: 400px;
   height: 200px;
   top: 0%;
