@@ -1,4 +1,5 @@
 f = open('sample.txt')
 
 for line in f:
-    print(line)
+    num = line.split()
+    print(num[0])
