@@ -22,6 +22,7 @@ class Employee:
         self.name = name
         self.age = age
         self.wage = wage
+        self.email = name + "@company.com"
 
     @classmethod
     def set_raise(cls, amount):
@@ -33,10 +34,19 @@ class Employee:
         return cls(name, age, wage)
 
 
-emp1 = Employee("Max", 28, 90000)
+class Manager(Employee):
+    def __init__(self, name, age, wage, staff=None):
+        super().__init__(name, age, wage)
+        if staff is None:
+            self.staff = []
+        else:
+            self.staff = staff
 
-print(emp1.rais_amount)
-Employee.set_raise(15)
-print(emp1.rais_amount)
-emp2 = Employee.from_string('Anna-23-60000')
-print(emp2.name, emp2.age)
+
+emp1 = Employee("Max", 28, 90000)
+emp2 = Employee("Ben", 98, 10000)
+mngr = Manager("Manager123", 22, 8888888, ["Corey", "Linda"])
+
+print(emp1.email)
+print(emp2.email)
+print(mngr.staff)
