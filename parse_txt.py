@@ -35,6 +35,9 @@ class Employee:
 
 
 class Manager(Employee):
+
+    rais_amount = 0
+
     def __init__(self, name, age, wage, staff=None):
         super().__init__(name, age, wage)
         if staff is None:
@@ -47,6 +50,11 @@ emp1 = Employee("Max", 28, 90000)
 emp2 = Employee("Ben", 98, 10000)
 mngr = Manager("Manager123", 22, 8888888, ["Corey", "Linda"])
 
+
 print(emp1.email)
 print(emp2.email)
+
 print(mngr.staff)
+mngr.set_raise(5)
+print(emp2.rais_amount)
+print(mngr.rais_amount)
