@@ -5,7 +5,8 @@ class Robot:
         self.weight = weight
 
     def introduce_self(self):
-        print('My name is {name}'.format(name=self.name))
+        name = self.key()
+        print(f'My name is {name}')
 
 
 r1 = Robot("Tom", "red", 30)
