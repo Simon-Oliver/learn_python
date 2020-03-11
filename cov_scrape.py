@@ -11,16 +11,24 @@ class DATA:
 
 today = datetime.today()
 date_string = today.strftime("%m-%d-%Y")
+yesterday = datetime.now() + timedelta(days=-1)
+date_string_yesterday = yesterday.strftime("%m-%d-%Y")
 
-file_name = f"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{date_string}.csv"
-print(file_name)
+file_name_today = f"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{date_string}.csv"
+file_name_yesterday = f"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{date_string_yesterday}.csv"
 
-res = requests.get(
-    "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-08-2020.csv")
+
+# res = requests.get(
+#     "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-08-2020.csv")
+res = requests.get(file_name_today)
+
+if res.status_code != 200:
+    res = requests.get(file_name_yesterday)
+
 
 data = csv.reader(res.text.splitlines())
-yesterday = datetime.now() + timedelta(days=-1)
-print(yesterday.strftime("%m-%d-%Y"))
+
+print(res)
 
 for line in data:
     if "Switzerland" in line:
