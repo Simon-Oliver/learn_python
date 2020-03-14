@@ -1,7 +1,13 @@
 import os
 import time
+import RPi.GPIO as GPIO
+from datetime import datetime, timedelta
 
-# "28-00000a9960e9" sensor id
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(18, GPIO.OUT)
+
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -28,3 +34,46 @@ def read_temp():
         temp_string = lines[1][equals_pos+2:]
         temp_c = float(temp_string) / 1000.0
         return temp_c
+
+
+def write_temp(temp):
+    f = open("./temp.csv", "a")
+    str = f"{temp}, {datetime.now()}\n"
+    f.write(str)
+
+    # Close the file
+    f.close()
+
+
+try:
+    while True:
+        temp = read_temp()
+        write_temp(temp)
+        print(temp)
+except:
+    print('temp_sensor stopped')
+    write_temp('temp_sensor stopped')
+
+
+# try:
+#    while True:
+#         temp = read_temp()
+#         print(temp)
+#         if temp > 27:
+#             print(temp)
+#             print("LED on")
+#             GPIO.output(18,GPIO.HIGH)
+
+#         if temp < 25:
+#             print(temp)
+#             print("LED off")
+#             GPIO.output(18,GPIO.LOW)
+
+#         else:
+#             print(temp)
+#         time.sleep(1)
+
+# except:
+#     print("exiting")
+#     GPIO.output(18, GPIO.LOW) # Switch off the LED
+#     GPIO.cleanup()
