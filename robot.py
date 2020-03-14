@@ -5,9 +5,13 @@ class Robot:
         self.weight = weight
 
     def introduce_self(self):
-        name = self.key()
-        print(f'My name is {name}')
+        print(f'My name is {self.name}')
+
+    def format_str(self):
+        formatted = f"--------------{self.name}--------------"
+        return formatted
 
 
 r1 = Robot("Tom", "red", 30)
 r1.introduce_self()
+print(r1.format_str())
