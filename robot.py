@@ -18,8 +18,12 @@ class Robot:
         # Close the file
         f.close()
 
+    def dynamic_print(self, arg):
+        print(getattr(self, arg))
+
 
 r1 = Robot("Tom", "red", 30)
 r1.introduce_self()
 print(r1.format_str())
 r1.write_to_f(r1.format_str(), "test", "txt")
+r1.dynamic_print("name")
