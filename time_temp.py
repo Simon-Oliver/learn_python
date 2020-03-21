@@ -1,33 +1,36 @@
 import time
+from threading import Thread
 from datetime import datetime, timedelta
 
 
-class Logtemp:
-    t_end = time.time() + 5
-    temp_temp = []
-    is_running = False
+class Logtemp(Thread):
+    def __init__(self, seconds):
+        '''Note that when you override __init__, you must
+           use super() to call __init__() in the base class
+           so you'll get all the "chocolately-goodness" of
+           threading (i.e., the magic that sets up the thread
+           within the OS) or it won't work.
+        '''
+        super().__init__()
+        self.temp_temp = []
+        self.delay = time.time() + seconds
+        self.is_done = False
 
-    def __init__(self):
-        pass
+    def done(self):
+        self.is_done = True
 
-    @classmethod
-    def record_temp(cls):
-        cls.is_running = True
-        while time.time() < cls.t_end:
-            print(datetime.now())
-            cls.temp_temp.append(datetime.now())
-            time.sleep(1)
-        cls.is_running = False
-        return cls.temp_temp
+    def run(self):
+        while not self.is_done:
+            print("--------------------- Done")
+            time.sleep(5)
 
 
-l1 = Logtemp()
+t = Logtemp(5)
+t.start()
 
-
-num = 2
-
-while num > 0:
-
-    l1.record_temp()
-    print("---------- Done")
-    num - 1
+t_end = time.time() + 60 * 15
+while True:
+    print(datetime.now())
+    t.temp_temp.append(datetime.now())
+    time.sleep(1)
+t.done()
