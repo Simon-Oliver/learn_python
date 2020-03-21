@@ -1,5 +1,4 @@
 import time
-import threading
 
 
 class Robot:
@@ -25,10 +24,11 @@ class Robot:
     def dynamic_print(self, arg):
         print(getattr(self, arg))
 
-    def print_interval(self):
-        while True:
+    def print_interval(self, arg, sec):
+        isPrinting = arg
+        while isPrinting:
             print("---Printing")
-            time.sleep(self.seconds)
+            time.sleep(sec)
 
 
 r1 = Robot("Tom", "red", 30)
@@ -36,3 +36,4 @@ r1.introduce_self()
 print(r1.format_str())
 r1.write_to_f(r1.format_str(), "test", "txt")
 r1.dynamic_print("name")
+r1.print_interval(True, 1)
