@@ -49,6 +49,7 @@ class Manager(Employee):
 emp1 = Employee("Max", 28, 90000)
 emp2 = Employee("Ben", 98, 10000)
 mngr = Manager("Manager123", 22, 8888888, ["Corey", "Linda"])
+emp4 = Employee.from_string("Parse Test-89-30000")
 
 
 print(emp1.email)
@@ -58,3 +59,4 @@ print(mngr.staff)
 mngr.set_raise(5)
 print(emp2.rais_amount)
 print(mngr.rais_amount)
+print(emp4.name)
