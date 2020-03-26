@@ -1,14 +1,15 @@
 import keyboard
 
-keyboard.add_hotkey("shift + r", lambda: print("CTRL+ALT+P Pressed!"))
+keyboard.add_hotkey("shift + r", lambda: print("Shift + r Pressed!"))
 
 
-def print_pressed_keys(e):
-    print(keyboard._pressed_events)
+# def print_pressed_keys(e):
+#     print(keyboard._pressed_events)
 
 
-keyboard.hook(print_pressed_keys)
+# keyboard.hook(print_pressed_keys)
 keyboard.wait('esc')
+
 
 # """
 # Prints the scan code of all currently pressed keys.
