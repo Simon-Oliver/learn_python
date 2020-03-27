@@ -1,6 +1,13 @@
 import keyboard
+import pyperclip
 
-keyboard.add_hotkey("shift + r", lambda: print("Shift + r Pressed!"))
+
+
+def print_clipboard():
+    text = pyperclip.paste()
+    print(text)
+
+keyboard.add_hotkey("shift + r", lambda: print_clipboard())
 
 
 # def print_pressed_keys(e):
@@ -9,8 +16,6 @@ keyboard.add_hotkey("shift + r", lambda: print("Shift + r Pressed!"))
 
 # keyboard.hook(print_pressed_keys)
 keyboard.wait('esc')
-
-
 # """
 # Prints the scan code of all currently pressed keys.
 # Updates on every keyboard event.
