@@ -1,18 +1,30 @@
 import keyboard
 import pyperclip
 
+dic = [
+    """Sample Multilin
+       Text to test if this is working""",
+    """More text now on postion 2""",
+    """More dummy text!"""
+]
 
 
-def print_clipboard():
-    text = pyperclip.paste()
-    print(text)
+def print_clipboard(key):
+    try:
+        print(dic[int(pos)])
+    except:
+        print('No Number content on this key')
 
-keyboard.add_hotkey("shift + r", lambda: print_clipboard())
+
+while True:
+    keyboard.on_release(print_clipboard)
+
+
+# keyboard.add_hotkey("shift + cmd + 1", lambda: print_clipboard())
 
 
 # def print_pressed_keys(e):
 #     print(keyboard._pressed_events)
-
 
 # keyboard.hook(print_pressed_keys)
 keyboard.wait('esc')
