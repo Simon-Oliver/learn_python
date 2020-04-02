@@ -1,48 +1,19 @@
-import keyboard
-import pyperclip
-
-dic = [
-    """Sample Multilin
-       Text to test if this is working""",
-    """More text now on postion 2""",
-    """More dummy text!"""
-]
+from pynput.keyboard import Key, Listener
 
 
-def print_clipboard(key):
-    try:
-        print(dic[int(pos)])
-    except:
-        print('No Number content on this key')
+def on_press(key):
+    print(key)
 
 
-while True:
-    keyboard.on_release(print_clipboard)
+def on_release(key):
+    print(key)
+    if key == Key.esc:
+        # Stop listener
+        return False
 
 
-# keyboard.add_hotkey("shift + cmd + 1", lambda: print_clipboard())
-
-
-# def print_pressed_keys(e):
-#     print(keyboard._pressed_events)
-
-# keyboard.hook(print_pressed_keys)
-keyboard.wait('esc')
-# """
-# Prints the scan code of all currently pressed keys.
-# Updates on every keyboard event.
-# """
-# import sys
-# sys.path.append('..')
-# import keyboard
-
-
-# def print_pressed_keys(e):
-#     line = ', '.join(str(code) for code in keyboard._pressed_events)
-#     # '\r' and end='' overwrites the previous line.
-#     # ' '*40 prints 40 spaces at the end to ensure the previous line is cleared.
-#     print(keyboard._pressed_events)
-
-
-# keyboard.hook(print_pressed_keys)
-# keyboard.wait('esc')
+# Collect events until released
+with Listener(
+        on_press=on_press,
+        on_release=on_release) as listener:
+    listener.join()
