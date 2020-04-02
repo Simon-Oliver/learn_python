@@ -1,12 +1,20 @@
 from pynput.keyboard import Key, Listener
+from pynput import keyboard
 
 
 def on_press(key):
-    print(key)
+    if isinstance(key, keyboard.KeyCode):
+        if key.char.isnumeric():
+            print(int(key.char))
+
+        else:
+            print(key.char)
+
+    else:
+        print(str(key))
 
 
 def on_release(key):
-    print(key)
     if key == Key.esc:
         # Stop listener
         return False
