@@ -20,8 +20,10 @@ for i in indices:
         data['quota'].append(df.iat[19+i, 2])
         data['actual'].append(df.iat[19+i, 3])
         #print(f'{df.iat[18+i,2]} | {df.iat[18+i,3]}')
+    print(df)
 print(data)
 
+print(df1)
 # Now you can list all sheets in the file
 print(xls.sheet_names)
 print(indices)
