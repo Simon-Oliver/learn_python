@@ -9,34 +9,54 @@ class App extends React.Component {
 
   componentDidMount() {
     setInterval(() => {
-      fetch('http://192.168.1.10:5000')
-        .then(res => res.json())
-        .then(data => {
-          console.log(data);
-          this.setState({
-            cpu_temp: Math.round((data.temp + Number.EPSILON) * 100) / 100,
-            cpu_percent: data.percent
-          });
-        });
+      // fetch('http://192.168.1.1:5000')
+      //   .then(res => res.json())
+      //   .then(data => {
+      //     console.log("Console Log",data);
+      //     this.setState({
+      //       cpu_temp: Math.round((data.temp + Number.EPSILON) * 100) / 100,
+      //       cpu_percent: data.percent
+      //     });
+      //   });
 
-      fetch('http://192.168.1.10:5000/temp')
+      fetch('http://192.168.1.9:5000/temp')
         .then(res => res.json())
         .then(data => {
+          console.log("Console Log",data);
           this.setState(prevState => ({
             ...prevState,
             temp: Math.round((Number(data.temp) + Number.EPSILON) * 100) / 100
           }));
         });
-    }, 1000);
 
-    fetch('http://192.168.1.10:5000/exchange')
-      .then(res => res.json())
-      .then(data => {
-        this.setState(prevState => ({
-          ...prevState,
-          kurs: Math.round((Number(data.kurs) + Number.EPSILON) * 100) / 100
-        }));
+
+        fetch("http://192.168.1.9:5000/deg", {  
+          method: 'POST', 
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }, 
+          body: JSON.stringify({
+          name: 'dean',
+          login: 'dean',
+        })
+      })
+      .then(function (data) {  
+        console.log('Request success: ', data);  
+      })  
+      .catch(function (error) {  
+        console.log('Request failure: ', error);  
       });
+    }, 3000);
+
+    // fetch('http://192.168.1.9:5000/exchange')
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     this.setState(prevState => ({
+    //       ...prevState,
+    //       kurs: Math.round((Number(data.kurs) + Number.EPSILON) * 100) / 100
+    //     }));
+    //   });
 
     setInterval(() => {
       var newVal = Math.floor(Math.random() * 179 + 1);
