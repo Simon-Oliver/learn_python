@@ -16,7 +16,6 @@
   border-radius: 20px;
   background: #313030;
   box-shadow: 31px 31px 62px #242323, -31px -31px 62px #3e3d3d;
-  margin-left: 30px;
 }
 
 .Button h3 {
@@ -25,14 +24,12 @@
   text-shadow: 20px 20px 60px #cf7900, -20px -20px 60px #ffa300;
 }
 
-
 .container-sqr {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   background: #313030;
 }
-
 
 .gauge-a {
   z-index: 1;
@@ -82,7 +79,7 @@
 
 .gauge-data {
   z-index: 4;
-  color: rgba(255, 255, 255, .2);
+  color: rgba(255, 255, 255, 0.2);
   font-size: 1.5em;
   line-height: 25px;
   position: absolute;
@@ -101,7 +98,6 @@
   position: relative;
   width: 400px;
   height: 200px;
-
 }
 
 .container {
@@ -110,5 +106,4 @@
   height: 200px;
   overflow: hidden;
   text-align: center;
-
 }
