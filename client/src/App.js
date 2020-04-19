@@ -1,14 +1,35 @@
 import React from 'react';
 import logo from './logo.svg';
+import PropTypes from 'prop-types';
 import { CircleSlider } from 'react-circle-slider';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/core/Slider';
+
 import './App.css';
+
+const styles = {
+  root: {
+    width: 300,
+    color: 'white',
+  },
+};
 
 class App extends React.Component {
   state = {
     value: 0,
   };
 
-  handleChange = (value) => {
+  valuetext = (value) => {
+    console.log(value);
+    // this.setState((prev) => {
+    //   if (prev.value != value) {
+    //     return value;
+    //   }
+    // });
+  };
+
+  handleChange = (e, value) => {
     console.log(`Changed value ${value}`);
     this.setState({ value });
   };
@@ -30,7 +51,6 @@ class App extends React.Component {
       //       cpu_percent: data.percent
       //     });
       //   });
-
       // fetch('http://192.168.1.3:5000/temp')
       //   .then((res) => res.json())
       //   .then((data) => {
@@ -40,24 +60,6 @@ class App extends React.Component {
       //       temp: Math.round((Number(data.temp) + Number.EPSILON) * 100) / 100,
       //     }));
       //   });
-
-      fetch('http://192.168.1.3:5000/deg', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: 'dean',
-          login: 'dean',
-        }),
-      })
-        .then(function (data) {
-          console.log('Request success: ', data);
-        })
-        .catch(function (error) {
-          console.log('Request failure: ', error);
-        });
     }, 3000);
 
     // fetch('http://192.168.1.9:5000/exchange')
@@ -68,11 +70,25 @@ class App extends React.Component {
     //       kurs: Math.round((Number(data.kurs) + Number.EPSILON) * 100) / 100
     //     }));
     //   });
+  }
 
-    setInterval(() => {
-      var newVal = Math.floor(Math.random() * 179 + 1);
-      this.setState({ style: { transform: `rotate(-${newVal}deg)` } });
-    }, 1000);
+  componentDidUpdate() {
+    fetch('http://192.168.1.3:5000/deg', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        deg: this.state.value,
+      }),
+    })
+      .then(function (data) {
+        console.log('Request success: ', data);
+      })
+      .catch(function (error) {
+        console.log('Request failure: ', error);
+      });
   }
 
   renderButtons = (obj) => {
@@ -90,6 +106,7 @@ class App extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
     //Stops window from scrolling
     document.addEventListener(
       'touchmove',
@@ -102,14 +119,32 @@ class App extends React.Component {
       <div className="App">
         <div className="container-sqr">{this.state ? this.renderButtons(this.state) : null}</div>
         <div className="square">
-          <CircleSlider value={this.state.value} onChange={(e) => this.handleChange(e)} />
+          <div className={classes.root}>
+            <Typography id="discrete-slider" gutterBottom>
+              Temperature
+            </Typography>
+            <Slider
+              onChange={this.handleChange}
+              defaultValue={90}
+              aria-labelledby="discrete-slider"
+              valueLabelDisplay="auto"
+              step={10}
+              marks
+              min={0}
+              max={180}
+            />
+          </div>
         </div>
       </div>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);
 
 // <div class="container">
 // <div class="gauge-a"></div>
@@ -120,3 +155,4 @@ export default App;
 //   <h1 id="percent">0%</h1>
 // </div>
 // </div>
+// <CircleSlider value={this.state.value} onChange={(e) => this.handleChange(e)} />

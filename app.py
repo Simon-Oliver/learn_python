@@ -2,9 +2,11 @@ from flask import Flask, jsonify, request, make_response
 # import cpu_temp
 # import temp_sensor
 # import psutil
+from flask_cors import CORS
 import requests
 from xml.etree import ElementTree
 app = Flask(__name__)
+CORS(app)
 
 
 # @app.route('/')
@@ -46,10 +48,9 @@ app = Flask(__name__)
 #             return response
 
 
-
 @app.route('/temp')
 def temp():
-    #temp = temp_sensor.read_temp()
+    # temp = temp_sensor.read_temp()
     print("temp call")
     response = jsonify({'temp': "test"})
     response.headers.add('Access-Control-Allow.Origin', '*')
@@ -63,39 +64,41 @@ def temp():
                          'Content-Type,Content-Length,Authorization,X-Pagination')
     return response
 
+
 @app.route('/deg', methods=['POST'])
 def deg():
-    print(request)
-    if request.method == 'OPTIONS':
-        print("Is options")
-        return build_preflight_response()
-    elif request.method == 'POST': 
-        req = request.get_json()
-        print(req)
-        # query user with req['id']
-        # for demonstration, we assume the username to be Eric
-        return build_actual_response(jsonify({ 'name': 'Eric' }))
-        
-    def build_preflight_response():
-        response = make_response()
-        response.headers.add('Access-Control-Allow.Origin', '*')
-        response.headers.add('Content-Type', 'application/json')
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Methods',
-                         'PUT, GET, POST, DELETE, OPTIONS')
-        response.headers.add('Access-Control-Allow-Headers',
-                         'Content-Type,Authorization')
-        response.headers.add('Access-Control-Expose-Headers',
-                         'Content-Type,Content-Length,Authorization,X-Pagination')
-        return response
-    def build_actual_response(response):
-        response.headers.add('Access-Control-Allow.Origin', '*')
-        response.headers.add('Content-Type', 'application/json')
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Methods',
-                         'PUT, GET, POST, DELETE, OPTIONS')
-        response.headers.add('Access-Control-Allow-Headers',
-                         'Content-Type,Authorization')
-        response.headers.add('Access-Control-Expose-Headers',
-                         'Content-Type,Content-Length,Authorization,X-Pagination')
-        return response
+    print(request.json)
+    # if request.method == 'OPTIONS':
+    #     print("Is options")
+    #     return build_preflight_response()
+    # elif request.method == 'POST':
+    #     req = request.get_json()
+    #     print(req)
+    #     # query user with req['id']
+    #     # for demonstration, we assume the username to be Eric
+    #     return build_actual_response(jsonify({'name': 'Eric'}))
+
+    # def build_preflight_response():
+    #     response = make_response()
+    #     response.headers.add('Access-Control-Allow.Origin', '*')
+    #     response.headers.add('Content-Type', 'application/json')
+    #     response.headers.add('Access-Control-Allow-Origin', '*')
+    #     response.headers.add('Access-Control-Allow-Methods',
+    #                          'PUT, GET, POST, DELETE, OPTIONS')
+    #     response.headers.add('Access-Control-Allow-Headers',
+    #                          'Content-Type,Authorization')
+    #     response.headers.add('Access-Control-Expose-Headers',
+    #                          'Content-Type,Content-Length,Authorization,X-Pagination')
+    #     return response
+
+    # def build_actual_response(response):
+    #     response.headers.add('Access-Control-Allow.Origin', '*')
+    #     response.headers.add('Content-Type', 'application/json')
+    #     response.headers.add('Access-Control-Allow-Origin', '*')
+    #     response.headers.add('Access-Control-Allow-Methods',
+    #                          'PUT, GET, POST, DELETE, OPTIONS')
+    #     response.headers.add('Access-Control-Allow-Headers',
+    #                          'Content-Type,Authorization')
+    #     response.headers.add('Access-Control-Expose-Headers',
+    #                          'Content-Type,Content-Length,Authorization,X-Pagination')
+    return "response"
