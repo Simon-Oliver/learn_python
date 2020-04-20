@@ -67,7 +67,7 @@ def temp():
 
 @app.route('/deg', methods=['POST'])
 def deg():
-    print(request.json)
+    print(request.json["deg"])
     # if request.method == 'OPTIONS':
     #     print("Is options")
     #     return build_preflight_response()

@@ -13,32 +13,54 @@ const styles = {
     width: 300,
     color: 'white',
   },
+  markLabel: {
+    color: 'white',
+  },
 };
+
+const marks = [
+  {
+    value: 0,
+    label: '0°',
+  },
+  {
+    value: 90,
+    label: '90°',
+  },
+  {
+    value: 180,
+    label: '180°',
+  },
+];
 
 class App extends React.Component {
   state = {
     value: 0,
   };
 
-  valuetext = (value) => {
-    console.log(value);
-    // this.setState((prev) => {
-    //   if (prev.value != value) {
-    //     return value;
-    //   }
-    // });
-  };
+  // valuetext = (value) => {
+  //   console.log(value);
+  //   // this.setState((prev) => {
+  //   //   if (prev.value != value) {
+  //   //     return value;
+  //   //   }
+  //   // });
+  // };
 
   handleChange = (e, value) => {
     console.log(`Changed value ${value}`);
-    this.setState({ value });
-  };
-
-  handleChangeRange = (event) => {
-    this.setState({
-      value: event.target.valueAsNumber,
+    this.setState((prevState) => {
+      if (prevState.value != value) {
+        return { value };
+      }
     });
   };
+
+  // handleChangeRange = (event) => {
+  //   this.setState({
+  //     value: event.target.valueAsNumber,
+  //   });
+  // };
 
   componentDidMount() {
     setInterval(() => {
@@ -73,7 +95,8 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
-    fetch('http://192.168.1.3:5000/deg', {
+    console.log('Updated was called');
+    fetch('http://192.168.1.15:5000/deg', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -82,13 +105,7 @@ class App extends React.Component {
       body: JSON.stringify({
         deg: this.state.value,
       }),
-    })
-      .then(function (data) {
-        console.log('Request success: ', data);
-      })
-      .catch(function (error) {
-        console.log('Request failure: ', error);
-      });
+    });
   }
 
   renderButtons = (obj) => {
@@ -120,18 +137,20 @@ class App extends React.Component {
         <div className="container-sqr">{this.state ? this.renderButtons(this.state) : null}</div>
         <div className="square">
           <div className={classes.root}>
-            <Typography id="discrete-slider" gutterBottom>
+            <Typography id="discrete-slider-custom" gutterBottom>
               Temperature
             </Typography>
             <Slider
+              classes={{ markLabel: classes.markLabel }}
               onChange={this.handleChange}
               defaultValue={90}
-              aria-labelledby="discrete-slider"
+              aria-labelledby="discrete-slider-custom"
               valueLabelDisplay="auto"
               step={10}
               marks
               min={0}
               max={180}
+              marks={marks}
             />
           </div>
         </div>
