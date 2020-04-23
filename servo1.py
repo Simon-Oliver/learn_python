@@ -25,17 +25,24 @@ pwm.set_PWM_frequency(servo, 50)
 # p.start(0)
 try:
     while True:
-        angle = int(input("Enter Angle: "))
-        pulseWidth = 500 + (angle * ((2400 - 500) / 181))
-        dutyCycle = pulseWidth / 20000
 
-        # duty_cylce = (angle / 180 * 10) + 2.5
-        if(dutyCycle < 2.5):
-            dutyCycle = 2.5
-        print(dutyCycle)
-        pwm.set_servo_pulsewidth(servo, pulseWidth)
-        # p.ChangeDutyCycle(dutyCycle)
-        time.sleep(0.3)
+        angle = input("Enter Angle: ")
+        if(angle == "twitch"):
+            pwm.set_servo_pulsewidth(servo, 500)
+            time.sleep(0.2)
+            pwm.set_servo_pulsewidth(servo, 2400)
+        else:
+            angle = int(angle)
+            pulseWidth = 500 + (angle * ((2400 - 500) / 181))
+            dutyCycle = pulseWidth / 20000
+
+            # # duty_cylce = (angle / 180 * 10) + 2.5
+            # if(dutyCycle < 2.5):
+            #     dutyCycle = 2.5
+            # print(dutyCycle)
+            pwm.set_servo_pulsewidth(servo, pulseWidth)
+            # p.ChangeDutyCycle(dutyCycle)
+            time.sleep(0.3)
 
         # p.ChangeDutyCycle(7.5)
         # time.sleep(1)

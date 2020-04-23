@@ -88,10 +88,16 @@ try:
         print(request.json["deg"])
         angle = request.json["deg"]
 
-        pulseWidth = 500 + (angle * ((2400 - 500) / 181))
-        dutyCycle = pulseWidth / 20000
+        if(angle == "twitch"):
+            pwm.set_servo_pulsewidth(servo, 500)
+            time.sleep(0.2)
+            pwm.set_servo_pulsewidth(servo, 2400)
+        else:
+            pulseWidth = 500 + (angle * ((2400 - 500) / 181))
+            dutyCycle = pulseWidth / 20000
 
         # duty_cylce = (angle / 180 * 10) + 2.5
+
         if(dutyCycle < 2.5):
             dutyCycle = 2.5
         print(dutyCycle)
