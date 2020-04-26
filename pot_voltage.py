@@ -34,6 +34,7 @@ def read_adc(adc_ch, vref=3.3):
     adc = adc >> 1
 
     # Calculate voltage form ADC value
+    # percentage = (adc/1023) *100
     voltage = (vref * adc) / 1024
 
     return voltage
