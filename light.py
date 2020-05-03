@@ -1,8 +1,7 @@
-    GNU nano 3.2                                 light.py
-
 import time
 import spidev
 from datetime import datetime, timedelta
+from timeit import default_timer as timer
 
 spi_ch = 0
 
@@ -31,8 +30,40 @@ def read_adc(adc_ch, vref=3.3):
     # Construct single integer out of the reply (2 bytes)
     adc = 0
     for n in reply:
-        [Read 63 lines]
+        adc = (adc << 8) + n
 
+    # Last bit (0) is not part of ADC value, shift to remove it
+    adc = adc >> 1
 
-^G Get Help ^ O Write Out ^ W Where Is ^ K Cut Text ^ J Justify ^ C Cur Pos
-^X Exit ^ R Read File ^\ Replace ^ U Uncut Text ^ T To Spell ^ _ Go To Line
+    # Calculate voltage form ADC value
+    # percentage = (adc/1023) *100
+    voltage = (vref * adc) / 1024
+
+    return adc
+
+state = ""
+prev_state = ""
+curr_time = 0
+prev_time = timer()
+
+# Report the channel 0 and channel 1 voltages to the terminal
+try:
+   
+    while True:
+        adc_0 = read_adc(0)
+        adc_1 = read_adc(1)
+        if(read_adc(0) <= 300):
+            state = "On"
+            curr_time = timer()
+        else:
+            state = "Off"
+            curr_time = timer()
+
+        if(prev_state != state):
+            prev_state = state
+            print(state, curr_time - prev_time)
+            prev_time = curr_time
+        time.sleep(0.2)
+
+finally:
+    print("Closing Program")
