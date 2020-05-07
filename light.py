@@ -41,6 +41,7 @@ def read_adc(adc_ch, vref=3.3):
 
     return adc
 
+
 state = ""
 prev_state = ""
 curr_time = 0
@@ -48,7 +49,7 @@ prev_time = timer()
 
 # Report the channel 0 and channel 1 voltages to the terminal
 try:
-   
+
     while True:
         adc_0 = read_adc(0)
         adc_1 = read_adc(1)

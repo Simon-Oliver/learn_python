@@ -1,0 +1,5 @@
+{
+  "color": "green",
+  "text": "This is a test to load a json config file",
+  "isEnabled": "True"
+}
