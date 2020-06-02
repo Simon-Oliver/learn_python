@@ -1,22 +1,17 @@
-import random
+from classes.game import Person, bcolors
 
+magic = [{"name": "Fire", "cost": 10, "dmg": 60},
+         {"name": "Thunder", "cost": 30, "dmg": 100},
+         {"name": "Blizzard", "cost": 50, "dmg": 130}
+         ]
 
-class Enemy:
-    enemy_hp = 200
+player = Person(460, 65, 60, 34, magic)
 
-    def __init__(self, enemy_attack_l, enemy_attack_h):
-        self.enemy_attack_l = enemy_attack_l
-        self.enemy_attack_h = enemy_attack_h
-
-    def get_stats(self):
-        print(self.enemy_attack_l)
-        print(self.enemy_attack_h)
-        print(self.enemy_hp)
-
-
-enemy1 = Enemy(10, 60)
-enemy1.get_stats()
-
+print(player.generate_damage())
+print(player.generate_damage())
+print(player.generate_damage())
+print(player.generate_magic_damage(0))
+print(player.generate_magic_damage(2))
 # while playerhp > 0:
 #     damage = random.randrange(enemy1.enemy_attak_l, enemy1.enemy_attak_h)
 #     playerhp = playerhp - damage
