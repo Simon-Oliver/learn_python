@@ -1,18 +1,21 @@
 import random
 
-playerhp = 300
 
 class Enemy:
+    enemy_hp = 200
+
     def __init__(self, enemy_attack_l, enemy_attack_h):
         self.enemy_attack_l = enemy_attack_l
         self.enemy_attack_h = enemy_attack_h
 
-    def get_attack(self):
+    def get_stats(self):
         print(self.enemy_attack_l)
+        print(self.enemy_attack_h)
+        print(self.enemy_hp)
+
 
 enemy1 = Enemy(10, 60)
-
-enemy1.get_attack()
+enemy1.get_stats()
 
 # while playerhp > 0:
 #     damage = random.randrange(enemy1.enemy_attak_l, enemy1.enemy_attak_h)
