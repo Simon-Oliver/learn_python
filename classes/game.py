@@ -35,3 +35,9 @@ class Person:
         if self.hp < 0:
             self.hp = 0
             return self.hp
+
+    def get_hp(self):
+        return self.maxhp
+
+    def get_mp(self):
+        return self.maxmp
