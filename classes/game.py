@@ -37,7 +37,18 @@ class Person:
             return self.hp
 
     def get_hp(self):
-        return self.maxhp
+        return self.hp
+
+    def get_max_hp(self):
+        return self.maxmp
 
     def get_mp(self):
+        return self.mp
+
+    def get_max_mp(self):
         return self.maxmp
+
+    def reduce_mp(self, cost):
+        self.mp -= cost
+        if self.mp < 0:
+            self.mp = 0

@@ -12,6 +12,11 @@ print(player.generate_damage())
 print(player.generate_damage())
 print(player.generate_magic_damage(0))
 print(player.generate_magic_damage(2))
+print(player.get_hp())
+print(player.take_damage(100))
+print(player.reduce_mp(50))
+print(player.get_hp(), "HP")
+print(player.get_mp(), "MP")
 # while playerhp > 0:
 #     damage = random.randrange(enemy1.enemy_attak_l, enemy1.enemy_attak_h)
 #     playerhp = playerhp - damage
