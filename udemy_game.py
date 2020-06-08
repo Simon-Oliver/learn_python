@@ -15,9 +15,24 @@ print(bcolors.FAIL + bcolors.BOLD + "AN ENEMY ATTACKS!" + bcolors.ENDC)
 while running:
     print("===================================")
     player.choose_action()
-    choice = input("Choose action:")
+    choice = int(input("Choose action:"))-1
+    action = player.get_actions(choice)
 
-    print(player.get_actions(int(choice)-1))
+    if action == "Attack":
+        dmg = player.generate_damage()
+        enemy1.take_damage(dmg)
+        print("You attacked for", dmg, "Enemy HP:", enemy1.get_hp())
+    elif action == "Magic":
+        print("===================================")
+        player.choose_magic()
+        choice = int(input("Choose action:")) - 1
+        action = player.get_spell_name(choice)
+        print(action)
 
-    running = False
+    enemy_dmg = enemy1.generate_damage()
+    player.take_damage(enemy_dmg)
+    print("You've been attacked for", enemy_dmg, "Player HP:", player.get_hp())
 
+    if enemy1.get_hp() == 0:
+        print(bcolors.OKGREEN + bcolors.BOLD + "YOU WIN!" + bcolors.ENDC)
+        running = False
