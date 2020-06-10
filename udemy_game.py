@@ -26,8 +26,9 @@ while running:
         print("===================================")
         player.choose_magic()
         choice = int(input("Choose action:")) - 1
-        action = player.get_spell_name(choice)
-        print(action)
+        magic_dmg = player.generate_magic_damage(choice)
+        enemy1.take_damage(magic_dmg)
+        print("You attacked for", magic_dmg, "Enemy HP:", enemy1.get_hp())
 
     enemy_dmg = enemy1.generate_damage()
     player.take_damage(enemy_dmg)
