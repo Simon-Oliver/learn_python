@@ -9,7 +9,7 @@ try:
     def temp():
         # temp = temp_sensor.read_temp()
         print("test call")
-        response = jsonify({'data': "test"})
+        response = jsonify({'data': 'test'})
         response.headers.add('Access-Control-Allow.Origin', '*')
         response.headers.add('Content-Type', 'application/json')
         response.headers.add('Access-Control-Allow-Origin', '*')
@@ -20,6 +20,9 @@ try:
         response.headers.add('Access-Control-Expose-Headers',
                              'Content-Type,Content-Length,Authorization,X-Pagination')
         return response
+except:
+    print("Whooops")
+
 
 
 
