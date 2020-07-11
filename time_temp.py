@@ -27,7 +27,7 @@ class Logtemp(Thread):
 
 t = Logtemp(5)
 t.start()
-
+1
 t_end = time.time() + 60 * 15
 while True:
     print(datetime.now())
