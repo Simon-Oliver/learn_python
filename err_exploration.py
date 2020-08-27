@@ -1,16 +1,22 @@
 import time
+import random
 
 
-def delay_print(message):
-    print(message)
-    time.sleep(5)
+def fake_sensor():
+    time.sleep(2)
+    if(bool(random.getrandbits(1))):
+        return random.randint(20, 26)
+    else:
+        raise Exception("Sensor disconnected")
 
 
+err = 0
 while True:
     try:
-        f = open("test_.txt", "r")
-        delay_print("This is workign")
+        temp = fake_sensor()
+        print(temp)
         pass
     except Exception as e:
-        delay_print(e)
+        err += 1
+        print(e, f"Error count {err}")
         pass
