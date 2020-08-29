@@ -50,6 +50,16 @@ class TestDB():
                 self.write_temp(temp)
                 self.reset_time()
 
+    def convert_temp(self, temp, unit):
+        if(unit == "f"):
+            fahrenheit = (temp * 1.8) + 32
+            return fahrenheit
+        elif(unit == "c"):
+            celsius = (temp - 32) / 1.8
+            return celsius
+        else:
+            raise Exception("Please enter f or c")
+
 
 db = TestDB()
 
@@ -57,7 +67,7 @@ err = 0
 while True:
     try:
         temp = fake_sensor()
-        db.start(3, temp)
+        db.start(3, db.convert_temp(temp, "f"))
         pass
     except Exception as e:
         err += 1
