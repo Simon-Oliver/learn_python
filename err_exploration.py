@@ -71,7 +71,7 @@ while True:
     try:
         temp = fake_sensor()
         db.start(3, db.convert_temp(temp, "f"))
-        
+        db.print_test()
         pass
     except Exception as e:
         err += 1
