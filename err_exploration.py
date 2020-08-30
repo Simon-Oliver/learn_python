@@ -60,6 +60,9 @@ class TestDB():
         else:
             raise Exception("Please enter f or c")
 
+    def print_test(self):
+        print("I have been calle after db.start")
+
 
 db = TestDB()
 
@@ -68,6 +71,7 @@ while True:
     try:
         temp = fake_sensor()
         db.start(3, db.convert_temp(temp, "f"))
+        
         pass
     except Exception as e:
         err += 1
