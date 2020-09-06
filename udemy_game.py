@@ -6,7 +6,7 @@ magic = [{"name": "Fire", "cost": 10, "dmg": 60},
          ]
 
 player = Person(460, 65, 60, 34, magic)
-enemy1 = Person(1260, 65, 45, 24, magic)
+enemy1 = Person(460, 65, 45, 24, magic)
 
 running = True
 
@@ -41,4 +41,3 @@ while running:
     elif player.get_hp() == 0:
         print(bcolors.FAIL + "Your enemy has defeated you" + bcolors.ENDC)
         running = False
-
