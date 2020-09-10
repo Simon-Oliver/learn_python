@@ -18,3 +18,5 @@ j = Job("Chef", 50000)
 
 c = Customer("Oliver", "Gold", j)
 print(c.job.wage)
+
+
