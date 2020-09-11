@@ -11,7 +11,7 @@ for component in gcal.walk():
     if component.name == "VEVENT":
         if component.get('ATTENDEE') is None:
             obj["summary"] = component.get('summary')
-            #print(component.get('summary'), "-----", 0)
+            # print(component.get('summary'), "-----", 0)
         else:
             print(component.get('summary'), component.get(
                 'DTEND').dt - component.get('DTSTART').dt)
@@ -21,13 +21,21 @@ for component in gcal.walk():
             obj["duration"] = component.get(
                 'DTEND').dt - component.get('DTSTART').dt
             obj["attendees"] = []
+            obj["location"] = []
+
+            for l in component.get('LOCATION').split(", "):
+                if "zoom.us" in str(l) and len(component.get('LOCATION').split(", ")) == 1:
+                    obj["location"].append("zoom")
+                else:
+                    obj["location"].append(l)
+
             for e in component.get('ATTENDEE'):
                 if e.replace("mailto:", "") == str(gcal["X-WR-CALNAME"]) and hasattr(e, 'params'):
-                    #print("-", e.replace("mailto:", ""))
+                    # print("-", e.replace("mailto:", ""))
                     obj["my_partstat"] = str(e.params["PARTSTAT"])
                     # print(e.params["PARTSTAT"])
                 else:
-                    #print("-", e.replace("mailto:", ""))
+                    # print("-", e.replace("mailto:", ""))
                     obj["attendees"].append(e.replace("mailto:", ""))
     arr.append(obj)
 
@@ -58,11 +66,32 @@ def sum_time(my_list):
     return meeting_totals
 
 
+def sum_attendees(my_list, atCount=None):
+    meeting_totals = {}
+    for meeting in my_list:
+        if "duration" in meeting and "ACCEPTED" in meeting.values():
+            if atCount is None:
+                for at in meeting["attendees"]:
+                    meeting_totals[at] = meeting_totals.get(
+                        at, 0) + 1
+                    print(at)
+            else:
+                if len(meeting["attendees"]) <= atCount:
+                    print(meeting["attendees"])
+                    for at in meeting["attendees"]:
+                        meeting_totals[at] = meeting_totals.get(
+                            at, 0) + 1
+
+    return meeting_totals
+
+
 arr1 = counts(arr)
 arr2 = sum_time(arr)
+arr3 = sum_attendees(arr, 1)
+print(arr)
 
-for key in arr1:
-    print(key, "|", arr1[key], "|", arr2[key])
+# for key in arr1:
+#     print(key, "|", arr1[key], "|", arr2[key])
 
 
 # if "duration" in meeting and "ACCEPTED" in meeting.values():
