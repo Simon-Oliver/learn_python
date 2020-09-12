@@ -81,14 +81,30 @@ def sum_attendees(my_list, atCount=None):
                     for at in meeting["attendees"]:
                         meeting_totals[at] = meeting_totals.get(
                             at, 0) + 1
+    return meeting_totals
+
+
+def count_by_attendees(my_list, atCount=None):
+    meeting_totals = {}
+    for meeting in my_list:
+        if "duration" in meeting and "ACCEPTED" in meeting.values():
+            if atCount is None:
+                meeting_totals[meeting["summary"]] = meeting_totals.get(
+                    meeting["summary"], 0) + 1
+            else:
+                if len(meeting["attendees"]) <= atCount:
+                    meeting_totals[meeting["summary"]] = meeting_totals.get(
+                        meeting["summary"], 0) + 1
 
     return meeting_totals
 
 
-arr1 = counts(arr)
-arr2 = sum_time(arr)
+# arr1 = counts(arr)
+# arr2 = sum_time(arr)
 arr3 = sum_attendees(arr, 1)
-print(arr)
+arr4 = count_by_attendees(arr, 5)
+print(arr3)
+
 
 # for key in arr1:
 #     print(key, "|", arr1[key], "|", arr2[key])
