@@ -1,5 +1,8 @@
 from icalendar import Calendar, Event
 from datetime import date, datetime, time, timedelta
+import pytz
+
+cet = pytz.country_timezones('ch')
 
 g = open('/Users/Simon/Downloads/test/test.ics', 'rb')
 
@@ -16,7 +19,7 @@ for component in gcal.walk():
             print(component.get('summary'), component.get(
                 'DTEND').dt - component.get('DTSTART').dt)
             obj["summary"] = str(component.get('summary'))
-            obj["DTSTART"] = str(component.get('DTSTART').dt)
+            obj["DTSTART"] = component.get('DTSTART').dt
             obj["DTEND"] = str(component.get('DTEND').dt)
             obj["duration"] = component.get(
                 'DTEND').dt - component.get('DTSTART').dt
@@ -101,10 +104,15 @@ def count_by_attendees(my_list, atCount=None):
 
 # arr1 = counts(arr)
 # arr2 = sum_time(arr)
-arr3 = sum_attendees(arr, 1)
-arr4 = count_by_attendees(arr, 5)
-print(arr3)
+# arr3 = sum_attendees(arr, 1)
+# arr4 = count_by_attendees(arr, 5)
+# print(arr3)
 
+today = datetime.utcnow()
+
+for e in arr:
+    if "DTSTART" in e and hasattr(e["DTSTART"], "date"):
+        print(e["DTSTART"].date(), e["DTSTART"].date() < today.date())
 
 # for key in arr1:
 #     print(key, "|", arr1[key], "|", arr2[key])
