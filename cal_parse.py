@@ -109,14 +109,18 @@ def count_by_attendees(my_list, atCount=None):
 # print(arr3)
 
 today = datetime.utcnow()
-sdate = datetime.utcfromtimestamp("2020-08-20")
 
 
-for e in arr:
-    if "DTSTART" in e and hasattr(e["DTSTART"], "date"):
-        print(e["DTSTART"].date(), e["DTSTART"].date() < today.date())
+def return_before_after(my_list, dtstart, dtend):
+    sdate = datetime.strptime(dtstart, '%Y-%m-%d')
+    edate = datetime.strptime(dtend, '%Y-%m-%d')
+    for e in my_list:
+        if "DTSTART" in e and hasattr(e["DTSTART"], "date") and e["DTSTART"].date() >= sdate.date() and e["DTSTART"].date() <= edate.date():
+            print(e["DTSTART"].date(), e["DTSTART"].date() > sdate.date())
 
-print(sdate)
+
+return_before_after(arr, "2020-09-12", "2020-09-25")
+
 # for key in arr1:
 #     print(key, "|", arr1[key], "|", arr2[key])
 
