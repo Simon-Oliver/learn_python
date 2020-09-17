@@ -112,14 +112,22 @@ today = datetime.utcnow()
 
 
 def return_before_after(my_list, dtstart, dtend):
+    newArr = []
     sdate = datetime.strptime(dtstart, '%Y-%m-%d')
     edate = datetime.strptime(dtend, '%Y-%m-%d')
     for e in my_list:
         if "DTSTART" in e and hasattr(e["DTSTART"], "date") and e["DTSTART"].date() >= sdate.date() and e["DTSTART"].date() <= edate.date():
-            print(e["DTSTART"].date(), e["DTSTART"].date() > sdate.date())
+            print(e["summary"], e["DTSTART"].date(),
+                  e["DTSTART"].date() > sdate.date())
+            newArr.append(e)
+    return newArr
 
 
-return_before_after(arr, "2020-09-12", "2020-09-25")
+arrBA = return_before_after(arr, "2020-09-12", "2020-09-25")
+
+print(arrBA)
+print(sum_time(arrBA))
+
 
 # for key in arr1:
 #     print(key, "|", arr1[key], "|", arr2[key])
