@@ -1,6 +1,8 @@
 from icalendar import Calendar, Event
 from datetime import date, datetime, time, timedelta
 import pytz
+import pprint
+
 
 cet = pytz.country_timezones('ch')
 
@@ -123,11 +125,14 @@ def return_before_after(my_list, dtstart, dtend):
     return newArr
 
 
-arrBA = return_before_after(arr, "2020-09-12", "2020-09-25")
+largeMeetings = count_by_attendees(arr, 3)
 
-print(arrBA)
-print(sum_time(arrBA))
+arrBA = return_before_after(largeMeetings, "2020-01-01", "2020-09-25")
 
+# print(arrBA)
+# print(sum_time(arrBA))
+
+pprint.pprint(largeMeetings)
 
 # for key in arr1:
 #     print(key, "|", arr1[key], "|", arr2[key])
