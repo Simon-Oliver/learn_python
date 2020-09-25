@@ -1,6 +1,8 @@
 from icalendar import Calendar, Event
 from datetime import date, datetime, time, timedelta
+import dateutil.parser
 import pytz
+import json
 import pprint
 
 
@@ -14,34 +16,53 @@ gcal = Calendar.from_ical(g.read())
 for component in gcal.walk():
     obj = {}
     if component.name == "VEVENT":
-        if component.get('ATTENDEE') is None:
-            obj["summary"] = component.get('summary')
-            # print(component.get('summary'), "-----", 0)
-        else:
-            print(component.get('summary'), component.get(
-                'DTEND').dt - component.get('DTSTART').dt)
-            obj["summary"] = str(component.get('summary'))
-            obj["DTSTART"] = component.get('DTSTART').dt
-            obj["DTEND"] = str(component.get('DTEND').dt)
-            obj["duration"] = component.get(
-                'DTEND').dt - component.get('DTSTART').dt
-            obj["attendees"] = []
-            obj["location"] = []
+        for k in component.keys():
+            if k == 'DTEND' or k == 'DTSTAMP' or k == 'DTSTART' or k == 'LAST-MODIFIED' or k == 'CREATED':
+                obj[k] = str(component.get(k).dt)
+            elif k == 'LOCATION':
+                obj[k] = []
+                for l in component.get(k).split(", "):
+                    if "zoom.us" in str(l) and len(component.get(k).split(", ")) == 1:
+                        obj[k].append("zoom")
+            elif k == 'ATTENDEE':
+                obj[k] = []
+                for e in component.get(k):
+                    if e.replace("mailto:", "") == str(gcal["X-WR-CALNAME"]) and hasattr(e, 'params'):
+                        # print("-", e.replace("mailto:", ""))
+                        obj["MY_PARTSTAT"] = str(e.params["PARTSTAT"])
+                        # print(e.params["PARTSTAT"])
+                    else:
+                        # print("-", e.replace("mailto:", ""))
+                        obj[k].append(e.replace("mailto:", ""))
 
-            for l in component.get('LOCATION').split(", "):
-                if "zoom.us" in str(l) and len(component.get('LOCATION').split(", ")) == 1:
-                    obj["location"].append("zoom")
-                else:
-                    obj["location"].append(l)
+            else:
+                obj[k] = str(component.get(k))
+        # if component.get('ATTENDEE') is None:
+        #     obj["summary"] = component.get('summary')
+        #     # print(component.get('summary'), "-----", 0)
+        # elif component.get('DTSTART').dt is None:
+        #     obj["summary"] = str(component.get('summary'))
+        #     obj["DTSTART"] = component.get('DTSTART').dt
+        #     obj["DTEND"] = str(component.get('DTEND').dt)
+        #     obj["duration"] = component.get(
+        #         'DTEND').dt - component.get('DTSTART').dt
+        #     obj["attendees"] = []
+        #     obj["location"] = []
 
-            for e in component.get('ATTENDEE'):
-                if e.replace("mailto:", "") == str(gcal["X-WR-CALNAME"]) and hasattr(e, 'params'):
-                    # print("-", e.replace("mailto:", ""))
-                    obj["my_partstat"] = str(e.params["PARTSTAT"])
-                    # print(e.params["PARTSTAT"])
-                else:
-                    # print("-", e.replace("mailto:", ""))
-                    obj["attendees"].append(e.replace("mailto:", ""))
+        #     for l in component.get('LOCATION').split(", "):
+        #         if "zoom.us" in str(l) and len(component.get('LOCATION').split(", ")) == 1:
+        #             obj["location"].append("zoom")
+        #         else:
+        #             obj["location"].append(l)
+
+        #     for e in component.get('ATTENDEE'):
+        #         if e.replace("mailto:", "") == str(gcal["X-WR-CALNAME"]) and hasattr(e, 'params'):
+        #             # print("-", e.replace("mailto:", ""))
+        #             obj["my_partstat"] = str(e.params["PARTSTAT"])
+        #             # print(e.params["PARTSTAT"])
+        #         else:
+        #             # print("-", e.replace("mailto:", ""))
+        #             obj["attendees"].append(e.replace("mailto:", ""))
     arr.append(obj)
 
 g.close()
@@ -125,14 +146,17 @@ def return_before_after(my_list, dtstart, dtend):
     return newArr
 
 
-largeMeetings = count_by_attendees(arr, 3)
+# largeMeetings = count_by_attendees(arr, 3)
 
-arrBA = return_before_after(largeMeetings, "2020-01-01", "2020-09-25")
+# arrBA = return_before_after(largeMeetings, "2020-01-01", "2020-09-25")
 
 # print(arrBA)
 # print(sum_time(arrBA))
 
-pprint.pprint(largeMeetings)
+pprint.pprint(arr)
+
+with open('cal.json', 'w') as outfile:
+    json.dump(arr, outfile)
 
 # for key in arr1:
 #     print(key, "|", arr1[key], "|", arr2[key])
