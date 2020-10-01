@@ -7,7 +7,7 @@ import json
 import jicson
 
 
-with open("cal2.json", "r") as read_file:
+with open("cal.json", "r") as read_file:
     data = json.load(read_file)
 
 
