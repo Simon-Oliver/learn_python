@@ -4,6 +4,7 @@ import dateutil.parser
 import pytz
 import json
 import pprint
+import csv
 
 
 class Parser:
@@ -20,34 +21,38 @@ class Parser:
         gcal = Calendar.from_ical(g.read())
         for component in gcal.walk():
             obj = {}
+            keys = ['DTEND', 'DTSTAMP', 'DTSTART',
+                    'LAST-MODIFIED', 'CREATED', 'ATTENDEE', 'LOCATION', "MY_PARTSTAT", "SUMMARY", "STATUS", 'DESCRIPTION']
             # Get Vevent as this holds all of the individual calender items
             if component.name == "VEVENT":
                 # iterate over all of the keys - this is important as not every item has the same keys
                 for k in component.keys():
-                    # get all the dates and convert them to strings
-                    if k == 'DTEND' or k == 'DTSTAMP' or k == 'DTSTART' or k == 'LAST-MODIFIED' or k == 'CREATED':
-                        obj[k] = str(component.get(k).dt)
-                    # Locations is used by zoom to store a zoom link
-                    # If there is a zoom link just append zoom otherwise add location to array
-                    elif k == 'LOCATION':
-                        obj[k] = []
-                        for l in component.get(k).split(", "):
-                            if "zoom.us" in str(l) and len(component.get(k).split(", ")) == 1:
-                                obj[k].append("zoom")
-                    # Clean attendee list by only storing email address
-                    elif k == 'ATTENDEE':
-                        obj[k] = []
-                        for e in component.get(k):
-                            if e.replace("mailto:", "") == str(gcal["X-WR-CALNAME"]) and hasattr(e, 'params'):
-                                # print("-", e.replace("mailto:", ""))
-                                obj["MY_PARTSTAT"] = str(e.params["PARTSTAT"])
-                                # print(e.params["PARTSTAT"])
-                            else:
-                                # print("-", e.replace("mailto:", ""))
-                                obj[k].append(e.replace("mailto:", ""))
+                    if k in keys:
+                        # get all the dates and convert them to strings
+                        if k == 'DTEND' or k == 'DTSTAMP' or k == 'DTSTART' or k == 'LAST-MODIFIED' or k == 'CREATED':
+                            obj[k] = str(component.get(k).dt)
+                        # Locations is used by zoom to store a zoom link
+                        # If there is a zoom link just append zoom otherwise add location to array
+                        elif k == 'LOCATION':
+                            obj[k] = []
+                            for l in component.get(k).split(", "):
+                                if "zoom.us" in str(l) and len(component.get(k).split(", ")) == 1:
+                                    obj[k].append("zoom")
+                        # Clean attendee list by only storing email address
+                        elif k == 'ATTENDEE':
+                            obj[k] = []
+                            for e in component.get(k):
+                                if e.replace("mailto:", "") == str(gcal["X-WR-CALNAME"]) and hasattr(e, 'params'):
+                                    # print("-", e.replace("mailto:", ""))
+                                    obj["MY_PARTSTAT"] = str(
+                                        e.params["PARTSTAT"])
+                                    # print(e.params["PARTSTAT"])
+                                else:
+                                    # print("-", e.replace("mailto:", ""))
+                                    obj[k].append(e.replace("mailto:", ""))
 
-                    else:
-                        obj[k] = str(component.get(k))
+                        else:
+                            obj[k] = str(component.get(k))
 
             arr.append(obj)
 
@@ -71,8 +76,21 @@ class Parser:
                     timedelta.append(e)
         return timedelta
 
+    def save_csv(self, arr):
+        csv_file = "cal_data.csv"
+        csv_columns = ['DTEND', 'DTSTAMP', 'DTSTART',
+                       'LAST-MODIFIED', 'CREATED', 'ATTENDEE', 'LOCATION', "MY_PARTSTAT", "SUMMARY", "STATUS", 'DESCRIPTION']
+        try:
+            with open(csv_file, 'w') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+                writer.writeheader()
+                for data in arr:
+                    writer.writerow(data)
 
-# timeSum = timedelta(0)
+        except IOError:
+            print("I/O error")
+
+    # timeSum = timedelta(0)
 
 
 test_cal = Parser('/Users/Simon/Downloads/test/test2.ics')
@@ -161,7 +179,10 @@ test_cal = Parser('/Users/Simon/Downloads/test/test2.ics')
 # print(arrBA)
 # print(sum_time(arrBA))
 
-pprint.pprint(len(test_cal.get_timedelta("2020-09-01", "2020-09-25")))
+pprint.pprint(test_cal.save_csv(
+    test_cal.get_timedelta("2020-01-01", "2020-09-25")))
+
+print(len(test_cal.get_timedelta("2020-01-01", "2020-09-25")))
 
 # --------------------------
 # with open('cal.json', 'w') as outfile:
