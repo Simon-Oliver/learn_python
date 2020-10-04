@@ -30,7 +30,8 @@ class Parser:
                     if k in keys:
                         # get all the dates and convert them to strings
                         if k == 'DTEND' or k == 'DTSTAMP' or k == 'DTSTART' or k == 'LAST-MODIFIED' or k == 'CREATED':
-                            obj[k] = str(component.get(k).dt)
+                            new_dt = str(component.get(k).dt)[:19]
+                            obj[k] = dateutil.parser.isoparse(new_dt)
                         # Locations is used by zoom to store a zoom link
                         # If there is a zoom link just append zoom otherwise add location to array
                         elif k == 'LOCATION':
@@ -46,8 +47,8 @@ class Parser:
                                     # print("-", e.replace("mailto:", ""))
                                     obj["MY_PARTSTAT"] = str(
                                         e.params["PARTSTAT"])
-                                    # print(e.params["PARTSTAT"])
-                                else:
+                                    obj[k].append(e.replace("mailto:", ""))
+                                elif len(e) > 1:
                                     # print("-", e.replace("mailto:", ""))
                                     obj[k].append(e.replace("mailto:", ""))
 
@@ -71,7 +72,8 @@ class Parser:
         for e in self.data:
             if "DTSTART" in e:
                  # e["DTSTART"][:10] is shorting date string such as '2020-10-13 12:45:00+00:00' to '2020-10-13'
-                timestr = datetime.strptime(e["DTSTART"][:10], '%Y-%m-%d')
+                timestr = datetime.strptime(
+                    str(e["DTSTART"])[: 10], '%Y-%m-%d')
                 if "DTSTART" in e and timestr.date() >= sdate.date() and timestr.date() <= edate.date():
                     timedelta.append(e)
         return timedelta
@@ -179,8 +181,8 @@ test_cal = Parser('/Users/Simon/Downloads/test/test2.ics')
 # print(arrBA)
 # print(sum_time(arrBA))
 
-pprint.pprint(test_cal.save_csv(
-    test_cal.get_timedelta("2020-01-01", "2020-09-25")))
+test_cal.save_csv(test_cal.get_timedelta("2020-01-01", "2020-09-25"))
+# pprint.pprint(test_cal.data)
 
 print(len(test_cal.get_timedelta("2020-01-01", "2020-09-25")))
 
