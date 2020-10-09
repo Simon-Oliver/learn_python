@@ -51,19 +51,23 @@ function cfDecodeEmail(encodedString) {
 
 let rawdata = fs.readFileSync('dai.json');
 let urls = JSON.parse(rawdata);
-// let urls = ['/hilfe-vor-ort/einrichtung/orthopaedische-klinik-58300-wetter-ruhr'];
+// let urls = [
+//   '/hilfe-vor-ort/einrichtung/orthopaedische-klinik-58300-wetter-ruhr',
+//   '/hilfe-vor-ort/einrichtung/diako-bremen-das-gesundheitszentrum-im-bremer-westen-28239-bremen',
+// ];
 // arr.forEach((e) => console.log(`https://hilfe.diakonie.de${e}`));
 let arr = [];
 
 const fetchData = async () => {
   for (let i = 0; i < urls.length; i++) {
+    console.log(i);
     const data = await fetch(
       //   `https://hilfe.diakonie.de/hilfe-vor-ort/results-html.php?ersteller=&kategorie=1&text=${search[i]}`
       `https://hilfe.diakonie.de${urls[i]}`
     )
       .then((res) => res.text())
       .then((data) => {
-        const $ = cheerio.load(data);
+        const $ = cheerio.load(data.replace('<br>', ','));
 
         const obj = {};
 
@@ -74,15 +78,31 @@ const fetchData = async () => {
                 .replace('/cdn-cgi/l/email-protection#', '')
             )
           : '';
-        obj.phone = $('.col-sm-10 > p:nth-child(4)').text()
-          ? $('.col-sm-10 > p:nth-child(4)').text()
+        // obj.phone = $('.col-sm-10 > p:nth-child(4)').text()
+        //   ? $('.col-sm-10 > p:nth-child(4)').text()
+        //   : '';
+        // obj.website = $('p.link-wrapper:nth-child(5) > a:nth-child(2)').text()
+        //   ? $('p.link-wrapper:nth-child(5) > a:nth-child(2)').text()
+        //   : '';
+        // obj.address = $('.col-sm-10 > p:nth-child(7)').text();
+
+        obj.name = $('header.static-sm-16 > h1:nth-child(1)').text()
+          ? $('header.static-sm-16 > h1:nth-child(1)').text()
           : '';
-        obj.website = $('p.link-wrapper:nth-child(5) > a:nth-child(2)').text()
-          ? $('p.link-wrapper:nth-child(5) > a:nth-child(2)').text()
+        obj.html = $('.col-sm-10.event').text();
+        var wpattern = /\b(\w*Website\w*)\b(.*)/g;
+        let webstr = obj.html.match(wpattern) ? obj.html.match(wpattern)[0] : '';
+        obj.website = webstr.slice(webstr.indexOf('Website:') + 8).trim()
+          ? webstr.slice(webstr.indexOf('Website:') + 8).trim()
           : '';
-        obj.address = $('.col-sm-10 > p:nth-child(7)').text();
-        obj.name = $('header.static-sm-16 > h1:nth-child(1)').text();
-        // let arr = $('.link-wrapper a');
+        obj.address = obj.html.slice(obj.html.indexOf('Adresse\n') + 9).trim()
+          ? obj.html.slice(obj.html.indexOf('Adresse\n') + 9).trim()
+          : ''; // let arr = $('.link-wrapper a');
+        var tpattern = /\b(\w*Telefon\w*)\b(.*)/g;
+        let telstr = obj.html.match(tpattern) ? obj.html.match(tpattern)[0] : '';
+        obj.phone = telstr.slice(telstr.indexOf('Telefon:') + 8).trim()
+          ? telstr.slice(telstr.indexOf('Telefon:') + 8).trim()
+          : '';
         // let arr = $('.sn-detail-address__headline');
         // arr.each((i, e) => {
         //   if (urls.indexOf(e.attribs.href) == -1) {
