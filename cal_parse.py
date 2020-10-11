@@ -1,6 +1,7 @@
 from icalendar import Calendar, Event
 from datetime import date, datetime, time, timedelta
 import dateutil.parser
+from dateutil import relativedelta
 import pytz
 import json
 import pprint
@@ -21,8 +22,8 @@ class Parser:
         gcal = Calendar.from_ical(g.read())
         for component in gcal.walk():
             obj = {}
-            keys = ['DTEND', 'DTSTAMP', 'DTSTART',
-                    'LAST-MODIFIED', 'CREATED', 'ATTENDEE', 'LOCATION', "MY_PARTSTAT", "SUMMARY", "STATUS", 'DESCRIPTION']
+            keys = ['DTEND', 'DTSTART',
+                    'ATTENDEE', 'LOCATION', "MY_PARTSTAT", "SUMMARY", "STATUS"]
             # Get Vevent as this holds all of the individual calender items
             if component.name == "VEVENT":
                 # iterate over all of the keys - this is important as not every item has the same keys
@@ -80,8 +81,8 @@ class Parser:
 
     def save_csv(self, arr):
         csv_file = "cal_data.csv"
-        csv_columns = ['DTEND', 'DTSTAMP', 'DTSTART',
-                       'LAST-MODIFIED', 'CREATED', 'ATTENDEE', 'LOCATION', "MY_PARTSTAT", "SUMMARY", "STATUS", 'DESCRIPTION']
+        csv_columns = ['DTEND', 'DTSTART',
+                       'ATTENDEE', 'LOCATION', "MY_PARTSTAT", "SUMMARY", "STATUS"]
         try:
             with open(csv_file, 'w') as csvfile:
                 writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
