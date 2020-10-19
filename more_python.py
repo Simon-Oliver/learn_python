@@ -4,7 +4,7 @@ class TestClass:
         self.name = name
 
     def printName(self):
-        print(self.name)
+        print(self.name, self.age)
 
 
 
