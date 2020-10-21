@@ -38,3 +38,24 @@ print(d)
 e = tester.createNumArr(8)[:5]
 print(e)
 
+# Making an actual copy of an array without creating a reference
+f = tester.createNumArr(8)[:]
+print(f)
+
+# List squaring all elements in an array
+test_arr = tester.createNumArr(9)
+g = [i*i for i in test_arr]
+print(g)
+
+# Get the index of "brown" and return everything after 
+t_string = "The brown fox jumps..."
+brown_index = t_string.find("brown")
+dot_index = t_string.find("...")
+print(t_string[brown_index:])
+
+
+# Get the index of the three dots at the end of the string and return everything between
+new_string = t_string[brown_index:dot_index]
+print(new_string)
+
+tuble = ("Max", 34)
