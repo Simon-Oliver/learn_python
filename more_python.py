@@ -58,4 +58,8 @@ print(t_string[brown_index:])
 new_string = t_string[brown_index:dot_index]
 print(new_string)
 
-tuble = ("Max", 34)
+# Tuples 
+tuple_test = ("Max", 34)
+
+# Check if something is in a tuple
+check = "Max" in tuple_test

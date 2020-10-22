@@ -7,6 +7,6 @@ assert device in (1, 0) , "Not within range"
 
 
 # We use exceptions that are caused by invalid user input or other problems
-special_error = Exception("This is a special error!")
-
+special_error = Exception("Exception raises a special error")
 raise special_error
+
