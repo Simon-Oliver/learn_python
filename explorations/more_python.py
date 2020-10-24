@@ -63,3 +63,25 @@ tuple_test = ("Max", 34)
 
 # Check if something is in a tuple
 check = "Max" in tuple_test
+
+
+class Company:
+    def __init__(self, name, size, revenue):
+        self.name = name
+        self.size = size
+        self.revenue = revenue
+
+    def getName(self):
+        print(self.name)
+
+
+
+class StartUp(Company):
+    def __init__(self, investors):
+        self.investors = investors
+
+    def getInvestors(self):
+        print(self.investors)
+
+
+new_startup = StartUp("Cool Company",10000, 200000000, ["investor 1", "investor 2"])
