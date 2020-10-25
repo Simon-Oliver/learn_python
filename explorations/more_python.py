@@ -65,23 +65,65 @@ tuple_test = ("Max", 34)
 check = "Max" in tuple_test
 
 
-class Company:
-    def __init__(self, name, size, revenue):
-        self.name = name
-        self.size = size
-        self.revenue = revenue
+class Employee:
+    raise_amt = 1.02
 
-    def getName(self):
-        print(self.name)
+    def __init__(self, first, last, pay, title):
+        self.first = first
+        self.last = last
+        self.pay = pay
+        self.title = title
+        self.email = "{}.{}@email.com".format(self.first,self.last)
 
+    def fullname(self):
+        return "{} {}".format(self.first,self.last)
 
-
-class StartUp(Company):
-    def __init__(self, investors):
-        self.investors = investors
-
-    def getInvestors(self):
-        print(self.investors)
+    def apply_raise(self):
+        self.pay = self.pay * self.raise_amt
 
 
-new_startup = StartUp("Cool Company",10000, 200000000, ["investor 1", "investor 2"])
+class Developer(Employee):
+    raise_amt = 4
+    def __init__(self, first, last, pay, title, prog_lang):
+        super().__init__(first, last, pay, title)
+        self.prog_lang = prog_lang
+
+class Manager(Employee):
+    raise_amt = 10
+    def __init__(self, first, last, pay, title, level,team=None):
+        super().__init__(first, last, pay, title)
+        self.team = [] if team is None else team # ternary operator expression
+        self.level = level
+
+
+    def add_emp(self, emp):
+        if emp not in self.team:
+            self.team.append(emp)
+        else:
+            print(emp.first, "Is already added.")
+
+    def remove_emp(self, emp):
+        if emp in self.team:
+            self.team.remove(emp)
+            print("Removed --->", emp.name)
+        
+
+emp_dev = Developer("Max", "Muster", 50000, "Junior Developer", "Python")
+emp_dev2 = Developer("Jane", "Doe", 80000, "Senior Developer", "C++")
+print(emp_dev.title ,emp_dev.pay)
+emp_dev.apply_raise()
+print(emp_dev.title ,emp_dev.pay, emp_dev.prog_lang)
+
+mngr_level1 = Manager("Boss", "Bossmann", 300000, "Manager", 2)
+
+print("Team size", len(mngr_level1.team))
+
+mngr_level1.add_emp(emp_dev)
+mngr_level1.add_emp(emp_dev2)
+print(mngr_level1.email)
+print("Team size", len(mngr_level1.team))
+mngr_level1.add_emp(emp_dev)
+mngr_level1.remove_emp(emp_dev)
+
+for emp in mngr_level1.team:
+    print(emp.first)
