@@ -85,6 +85,7 @@ class Employee:
 class Developer(Employee):
     raise_amt = 4
     def __init__(self, first, last, pay, title, prog_lang):
+        # super initiates the class with the props from the parent
         super().__init__(first, last, pay, title)
         self.prog_lang = prog_lang
 
@@ -105,12 +106,12 @@ class Manager(Employee):
     def remove_emp(self, emp):
         if emp in self.team:
             self.team.remove(emp)
-            print("Removed --->", emp.name)
+            print("Removed --->", emp.first)
         
-
 emp_dev = Developer("Max", "Muster", 50000, "Junior Developer", "Python")
 emp_dev2 = Developer("Jane", "Doe", 80000, "Senior Developer", "C++")
 print(emp_dev.title ,emp_dev.pay)
+
 emp_dev.apply_raise()
 print(emp_dev.title ,emp_dev.pay, emp_dev.prog_lang)
 
@@ -123,7 +124,9 @@ mngr_level1.add_emp(emp_dev2)
 print(mngr_level1.email)
 print("Team size", len(mngr_level1.team))
 mngr_level1.add_emp(emp_dev)
-mngr_level1.remove_emp(emp_dev)
 
 for emp in mngr_level1.team:
     print(emp.first)
+
+mngr_level1.remove_emp(emp_dev)
+
