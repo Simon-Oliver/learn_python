@@ -64,7 +64,7 @@ tuple_test = ("Max", 34)
 # Check if something is in a tuple
 check = "Max" in tuple_test
 
-
+# Create Employee Class
 class Employee:
     raise_amt = 1.02
 
@@ -75,13 +75,16 @@ class Employee:
         self.title = title
         self.email = "{}.{}@email.com".format(self.first,self.last)
 
+    # def __repr__(self):
+    #     return "Employee('{}','{}','{}','{}')".format(self.first, self.last, self.pay, self.title)
+
     def fullname(self):
         return "{} {}".format(self.first,self.last)
 
     def apply_raise(self):
         self.pay = self.pay * self.raise_amt
 
-
+# Create Developer Class that inherits from Employee
 class Developer(Employee):
     raise_amt = 4
     def __init__(self, first, last, pay, title, prog_lang):
@@ -89,6 +92,8 @@ class Developer(Employee):
         super().__init__(first, last, pay, title)
         self.prog_lang = prog_lang
 
+
+# Create Manager Class 
 class Manager(Employee):
     raise_amt = 10
     def __init__(self, first, last, pay, title, level,team=None):
@@ -96,37 +101,57 @@ class Manager(Employee):
         self.team = [] if team is None else team # ternary operator expression
         self.level = level
 
-
+    # adding employee
     def add_emp(self, emp):
         if emp not in self.team:
             self.team.append(emp)
         else:
             print(emp.first, "Is already added.")
 
+    # removing employee
     def remove_emp(self, emp):
         if emp in self.team:
             self.team.remove(emp)
             print("Removed --->", emp.first)
-        
+
+
+# Create Developer Max Muster         
 emp_dev = Developer("Max", "Muster", 50000, "Junior Developer", "Python")
+
+# Create Developer Jane Doe    
 emp_dev2 = Developer("Jane", "Doe", 80000, "Senior Developer", "C++")
 print(emp_dev.title ,emp_dev.pay)
 
+# Apply raise defined in developer class
 emp_dev.apply_raise()
 print(emp_dev.title ,emp_dev.pay, emp_dev.prog_lang)
 
-mngr_level1 = Manager("Boss", "Bossmann", 300000, "Manager", 2)
+# Create Manager level 2
+mngr_level2 = Manager("Boss", "Bossmann", 300000, "Manager", 2)
 
-print("Team size", len(mngr_level1.team))
+print("Team size", len(mngr_level2.team))
 
-mngr_level1.add_emp(emp_dev)
-mngr_level1.add_emp(emp_dev2)
-print(mngr_level1.email)
-print("Team size", len(mngr_level1.team))
-mngr_level1.add_emp(emp_dev)
+# Add employee (dev) to Manager Team
+mngr_level2.add_emp(emp_dev)
 
-for emp in mngr_level1.team:
+# Add employee (dev2) to Mangaer Team
+mngr_level2.add_emp(emp_dev2)
+print(mngr_level2.email)
+print("Team size", len(mngr_level2.team))
+
+# Duplicate employee in team to see if this is handeld properly
+mngr_level2.add_emp(emp_dev)
+
+# Print all team members from Manager Lever 2
+for emp in mngr_level2.team:
     print(emp.first)
 
-mngr_level1.remove_emp(emp_dev)
+# Remove team member from Manager 2 Team
+mngr_level2.remove_emp(emp_dev)
 
+
+print(isinstance(emp_dev, Employee))
+print(isinstance(mngr_level2, Employee))
+print(issubclass(Manager, Employee))
+
+print(emp_dev)
