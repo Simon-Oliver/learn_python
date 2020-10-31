@@ -19,7 +19,7 @@ tester = TestClass(5, "test")
 print(tester.createNumArr(8))
 
 # This will print every second item
-a = tester.createNumArr(8)[::2] 
+a = tester.createNumArr(8)[::2]
 print(a)
 
 # This will print the elements from index 3 to 5
@@ -47,7 +47,7 @@ test_arr = tester.createNumArr(9)
 g = [i*i for i in test_arr]
 print(g)
 
-# Get the index of "brown" and return everything after 
+# Get the index of "brown" and return everything after
 t_string = "The brown fox jumps..."
 brown_index = t_string.find("brown")
 dot_index = t_string.find("...")
@@ -58,13 +58,15 @@ print(t_string[brown_index:])
 new_string = t_string[brown_index:dot_index]
 print(new_string)
 
-# Tuples 
+# Tuples
 tuple_test = ("Max", 34)
 
 # Check if something is in a tuple
 check = "Max" in tuple_test
 
 # Create Employee Class
+
+
 class Employee:
     raise_amt = 1.02
 
@@ -73,32 +75,39 @@ class Employee:
         self.last = last
         self.pay = pay
         self.title = title
-        self.email = "{}.{}@email.com".format(self.first,self.last)
+        self.email = "{}.{}@email.com".format(self.first, self.last)
 
-    # def __repr__(self):
-    #     return "Employee('{}','{}','{}','{}')".format(self.first, self.last, self.pay, self.title)
+    def __repr__(self):
+        return "Employee('{}','{}','{}','{}')".format(self.first, self.last, self.pay, self.title)
+
+    def __str__(self):
+        return 'Test of string dunder'
 
     def fullname(self):
-        return "{} {}".format(self.first,self.last)
+        return "{} {}".format(self.first, self.last)
 
     def apply_raise(self):
         self.pay = self.pay * self.raise_amt
 
 # Create Developer Class that inherits from Employee
+
+
 class Developer(Employee):
     raise_amt = 4
+
     def __init__(self, first, last, pay, title, prog_lang):
         # super initiates the class with the props from the parent
         super().__init__(first, last, pay, title)
         self.prog_lang = prog_lang
 
 
-# Create Manager Class 
+# Create Manager Class
 class Manager(Employee):
     raise_amt = 10
-    def __init__(self, first, last, pay, title, level,team=None):
+
+    def __init__(self, first, last, pay, title, level, team=None):
         super().__init__(first, last, pay, title)
-        self.team = [] if team is None else team # ternary operator expression
+        self.team = [] if team is None else team  # ternary operator expression
         self.level = level
 
     # adding employee
@@ -115,16 +124,16 @@ class Manager(Employee):
             print("Removed --->", emp.first)
 
 
-# Create Developer Max Muster         
+# Create Developer Max Muster
 emp_dev = Developer("Max", "Muster", 50000, "Junior Developer", "Python")
 
-# Create Developer Jane Doe    
+# Create Developer Jane Doe
 emp_dev2 = Developer("Jane", "Doe", 80000, "Senior Developer", "C++")
-print(emp_dev.title ,emp_dev.pay)
+print(emp_dev.title, emp_dev.pay)
 
 # Apply raise defined in developer class
 emp_dev.apply_raise()
-print(emp_dev.title ,emp_dev.pay, emp_dev.prog_lang)
+print(emp_dev.title, emp_dev.pay, emp_dev.prog_lang)
 
 # Create Manager level 2
 mngr_level2 = Manager("Boss", "Bossmann", 300000, "Manager", 2)
@@ -154,4 +163,4 @@ print(isinstance(emp_dev, Employee))
 print(isinstance(mngr_level2, Employee))
 print(issubclass(Manager, Employee))
 
-print(emp_dev)
+print(str(emp_dev))
