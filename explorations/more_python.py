@@ -164,3 +164,25 @@ print(isinstance(mngr_level2, Employee))
 print(issubclass(Manager, Employee))
 
 print(str(emp_dev))
+
+
+class Animal:
+    def __init__(self, name, species, food):
+        self.name = name
+        self.species = species
+        self.food = food
+
+    def talk(self):
+        print("roooar")
+
+
+class Dog(Animal):
+    def __init__(self, name, species, food):
+        super().__init__(name, species, food)
+
+    def talk(self):
+        print("Wooof")
+
+
+rex = Dog('Rex', "dog", "Fish")
+rex.talk()
