@@ -184,5 +184,32 @@ class Dog(Animal):
         print("Wooof")
 
 
+class CourseInternal:
+    def __init__(self, name, max_participants):
+        self.name = name
+        self.students = []
+        self.max_participants = max_participants
+
+
+    def add_student(self,student):
+        if len(self.students) < self.max_participants:
+            self.students.append(student)
+            return True
+        return False
+
+    def get_enrolled_students(self):
+        enrolled = []
+        for student in self.students:
+            enrolled.append(student.first)
+        return enrolled
+
+
+it_onboarding = CourseInternal("IT Onboarding", 3)
+
+it_onboarding.add_student(emp_dev)
+it_onboarding.add_student(emp_dev2)
+
+print(it_onboarding.get_enrolled_students())
+
 rex = Dog('Rex', "dog", "Fish")
 rex.talk()
