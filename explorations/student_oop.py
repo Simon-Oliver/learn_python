@@ -1,8 +1,10 @@
 class Student:
-    def __init__(self, name, age ,grade):
+
+    def __init__(self, name, age, grade):
         self.name = name
         self.age = age
         self.grade = grade
+
 
 class Course:
     def __init__(self, name, max_pax):
@@ -25,10 +27,28 @@ class Course:
 
 s1 = Student("Max Muster", 28, 10)
 s2 = Student("Oliver Müller", 22, 2)
-s3 = Student("James Cooper",26, 8)
+s3 = Student("James Cooper", 26, 8)
 
 course_it = Course("Computer Sience", 2)
 course_it.add_student(s1)
 course_it.add_student(s2)
 print(course_it.add_student(s3))
 print(course_it.get_average_grade())
+
+
+class Capstone(Course):
+    def __init__(self, name, max_pax, hours):
+        super().__init__(name, max_pax)
+        self.hours = hours
+
+    def add_student(self, student):
+        if len(self.students) < self.max_pax:
+            student.hours = 10
+            self.students.append(student)
+            return True
+        return False
+
+
+nur_1 = Capstone("Nursing", 2, 250)
+nur_1.add_student(s3)
+print(s3.hours)
