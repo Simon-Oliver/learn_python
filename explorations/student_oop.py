@@ -19,6 +19,14 @@ class CalculateStandartStudent(Student):
     def calculate_grade(self):
         return self.grade * 500
 
+class CalculateHouerlyStudent(Student):
+    def __init__(self, name, age ,grade, hours=None):
+        super().__init__(name, age ,grade)
+        self.hours = hours
+
+    def calculate_grade(self):
+        return self.grade * self.hours
+
 class Course:
     def __init__(self, name, max_pax):
         self.name = name
@@ -42,6 +50,10 @@ s1 = CalculateStandartStudent("Max Muster", 28, 10)
 s2 = CalculateStandartStudent("Oliver Müller", 22, 2)
 s3 = CalculateStandartStudent("James Cooper",26, 8)
 
+h1 = CalculateHouerlyStudent("H44 Student", 21, 10, 44)
+h2 = CalculateHouerlyStudent("H55 Student", 23, 13, 55)
+h3 = CalculateHouerlyStudent("H60 Student", 27, 30, 60)
+
 course_it = Course("Computer Sience", 2)
 course_it.add_student(s1)
 course_it.add_student(s2)
@@ -50,3 +62,4 @@ print(course_it.get_average_grade())
 
 calculate_grade = GradeSystem()
 calculate_grade.calculate_grade([s1,s2,s3])
+calculate_grade.calculate_grade([h1,h2,h3])
