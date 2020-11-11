@@ -63,3 +63,4 @@ print(course_it.get_average_grade())
 calculate_grade = GradeSystem()
 calculate_grade.calculate_grade([s1,s2,s3])
 calculate_grade.calculate_grade([h1,h2,h3])
+
