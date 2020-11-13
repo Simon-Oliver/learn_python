@@ -16,25 +16,29 @@ const urls = [
   'https://www.comparis.ch/gesundheit/spitex/detail/alters-und-pflegeheim-lueg-is-land-ag/1010000558000',
   'https://www.comparis.ch/gesundheit/spitex/detail/altersheime-baar/1010000921000',
   'https://www.comparis.ch/gesundheit/spitex/detail/alterssiedlung-sonnmatt/1010000739000',
-  'https://www.comparis.ch/gesundheit/spitex/detail/alterstagesst-tte-zum-lebenslauf-/1010000924000',
 ];
+
+const parseData = (data) => {
+  const $ = cheerio.load(data);
+  obj = {};
+
+  obj.name = $('h1').text() ? $('h1').text() : 'N/A';
+  obj.tel = $("a[href^='tel:']").text() ? $("a[href^='tel:']").text() : 'N/A';
+  obj.web = $("a[href^='http:']").text() ? $("a[href^='http:']").text() : 'N/A';
+  obj.address = $('li em.fa-map-marker').parent().text().trim()
+    ? $('li em.fa-map-marker').parent().text().trim()
+    : 'N/A';
+
+  return obj;
+};
 
 const fetchData = async (url) => {
   const finaldata = await fetch(url)
     .then((res) => res.text())
     .then((data) => {
-      const $ = cheerio.load(data);
-      obj = {};
-
-      obj.name = $('h1').text() ? $('h1').text() : 'N/A';
-      obj.tel = $("a[href^='tel:']").text() ? $("a[href^='tel:']").text() : 'N/A';
-      obj.web = $("a[href^='http:']").text() ? $("a[href^='http:']").text() : 'N/A';
-      obj.address = $('li em.fa-map-marker').parent().text().trim()
-        ? $('li em.fa-map-marker').parent().text().trim()
-        : 'N/A';
-
-      return obj;
-    });
+      return parseData(data);
+    })
+    .catch((e) => console.log('-------->', e));
   return finaldata;
 };
 
