@@ -116,9 +116,10 @@ const batchScrape = async (list, num) => {
 };
 
 class CreateCSV {
-  constructor(headings) {
+  constructor(headings, data) {
     this.headings = headings
     this.headStr = headings.join()
+    this.data =data 
   }
 
   getHeadings(){
@@ -129,11 +130,25 @@ class CreateCSV {
     return this.headStr
   }
 
+  getCSV(){
+    let csvStr = ""
+    csvStr += this.headStr
+    this.data.forEach(d => {
+      let str = "\n"
+      this.headings.forEach(h => {
+        str += d[h] + ","
+      })
+      csvStr += str.replace(/,\s*$/, "")
+    })
+    return csvStr
+  }
+
 }
 
 
 
 
 batchScrape(urls, 10).then(async (d) => {
-  console.log(await new ObjectsToCsv(d).toString())
+  //console.log(await new ObjectsToCsv(d).toString())
+  console.log(new CreateCSV(["name","company"],d).getCSV())
 });
