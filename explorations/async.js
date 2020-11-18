@@ -1,5 +1,7 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
+const ObjectsToCsv = require('objects-to-csv');
+
 
 let urls = [
   'https://jsonplaceholder.typicode.com/users/1',
@@ -68,7 +70,7 @@ let getUser = async (url) => {
     .then((r) => r.json())
     .then((json) => getData(json))
     .catch((e) => {
-      return { error: e.name, message: e.message };
+      return { error: e.name, message: e.message, name: "n/a", company: "n/a" };
     });
   return data;
 };
@@ -113,4 +115,25 @@ const batchScrape = async (list, num) => {
   return arr;
 };
 
-batchScrape(urls, 10).then((d) => console.log(d));
+class CreateCSV {
+  constructor(headings) {
+    this.headings = headings
+    this.headStr = headings.join()
+  }
+
+  getHeadings(){
+    return this.headings
+  }
+
+  getStrHeadings(){
+    return this.headStr
+  }
+
+}
+
+
+
+
+batchScrape(urls, 10).then(async (d) => {
+  console.log(await new ObjectsToCsv(d).toString())
+});
