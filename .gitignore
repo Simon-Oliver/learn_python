@@ -5,6 +5,7 @@
 env/
 /.pnp
 .pnp.js
+.pptx
 
 # testing
 /coverage
