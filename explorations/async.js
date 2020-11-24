@@ -138,14 +138,12 @@ class CreateCSV {
       this.headings.forEach(h => {
         str += d[h] + ","
       })
-      csvStr += str.replace(/,\s*$/, "")
+      csvStr += str.replace(/,\s*$/, "") // Removes the trailing comma and whitespace
     })
     return csvStr
   }
 
 }
-
-
 
 
 batchScrape(urls, 10).then(async (d) => {
