@@ -1,15 +1,10 @@
-const urls = require("./error.json")
+//const urls = require("./error.json")
 const fetch = require('node-fetch');
 const fs = require('fs');
 const cheerio = require('cheerio');
 const ObjectsToCsv = require('objects-to-csv');
 
-// const urls = [
-//     "https://www.caritas.de/search.ashx?g=0580b30e-070c-4555-b3f6-2fe738a72908&p=21&r=f722047f-1420-414b-856e-32946ef514f6&u=http%3a%2f%2fwww.caritas.de%2fadressen%2fcaritas-schwarzwald-gaeu-zentrum-horb%2fzentrumsverwaltung%2f72160-horb-a.-n%2f79479%3fsearchterm%3d",
-//     "https://www.caritas.de/search.ashx?g=0580b30e-070c-4555-b3f6-2fe738a72908&p=26&r=c85b9dca-d374-4681-b9d9-40b5b32d367f&u=http%3a%2f%2fwww.caritas.de%2fadressen%2fcaritas-fils-neckar-alb-zentrum-goeppingen%2f73033-goeppingen%2f81627%3fsearchterm%3d",
-//     "https://www.caritas.de/search.ashx?g=0580b30e-070c-4555-b3f6-2fe738a72908&p=35&r=30a9cf41-4e32-45ff-979d-505c6da7ea58&u=http%3a%2f%2fwww.caritas.de%2fadressen%2fcaritas-schwarzwald-gaeu-zentrum-calw%2fzentrumsverwaltung%2f75365-calw%2f84007%3fsearchterm%3d",
-//     "https://www.caritas.de/search.ashx?g=0580b30e-070c-4555-b3f6-2fe738a72908&p=11695&r=adcab15f-5265-42e1-bc46-d74f38f3012a&u=http%3a%2f%2fwww.caritas.de%2fadressen%2fgeschaeftsstelle%2fdioezesancaritasverband%2f65549-limburg-lahn%2f104339%3fsearchterm%3d"
-// ]
+const urls =[]
 
 function chunkArray(array, size) {
   let result = [];
@@ -26,7 +21,7 @@ const getData = (user,url) => {
     obj.url = url
     try{
         const $ = cheerio.load(user);
-        const el = $('.address__info').text()
+        const el = $('.eventbox__address').text()
         obj.address = el.trim().split("\n").map(e => e.replace(/\s+/g, " ").trim()).filter(e => e != "").join(",")
         obj.tel = $("div[title=\"Telefon\"]").text().split("\n").map(e => e.replace(/\s+/g, " ").trim()).filter(e => e != "")
         obj.email = $(".link.link--mail").attr("href").replace("mailto:","")
@@ -85,8 +80,8 @@ const batchScrape = async (list, num) => {
 
   for (let b of batch) {
     d = await scrape(b);
-    console.log()
-    savingToFile('carReError.json', [...arr, ...d]);
+    // console.log([...arr, ...d])
+    savingToFile('carFourthPass.json', [...arr, ...d]);
     arr = [...arr, ...d];
   }
 

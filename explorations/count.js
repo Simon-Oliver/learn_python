@@ -1,3 +1,9 @@
 const urls = require("./carDataSaveFinal.json")
-const arr = JSON.parse(urls)
-console.log(arr.length())
+
+let count = 0;
+
+urls.forEach(element => {
+    count++
+});
+
+console.log(count)
