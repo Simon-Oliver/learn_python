@@ -1,5 +1,7 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
+const ObjectsToCsv = require('objects-to-csv');
+
 
 let urls = [
   'https://jsonplaceholder.typicode.com/users/1',
@@ -69,7 +71,7 @@ let getUser = async (url) => {
     .then((r) => r.json())
     .then((json) => getData(json))
     .catch((e) => {
-      return { error: e.name, message: e.message };
+      return { error: e.name, message: e.message, name: "n/a", company: "n/a" };
     });
   return data;
 };
@@ -114,4 +116,38 @@ const batchScrape = async (list, num) => {
   return arr;
 };
 
-batchScrape(urls, 10).then((d) => console.log(d));
+class CreateCSV {
+  constructor(headings, data) {
+    this.headings = headings
+    this.headStr = headings.join()
+    this.data =data 
+  }
+
+  getHeadings(){
+    return this.headings
+  }
+
+  getStrHeadings(){
+    return this.headStr
+  }
+
+  getCSV(){
+    let csvStr = ""
+    csvStr += this.headStr
+    this.data.forEach(d => {
+      let str = "\n"
+      this.headings.forEach(h => {
+        str += d[h] + ","
+      })
+      csvStr += str.replace(/,\s*$/, "") // Removes the trailing comma and whitespace
+    })
+    return csvStr
+  }
+
+}
+
+
+batchScrape(urls, 10).then(async (d) => {
+  //console.log(await new ObjectsToCsv(d).toString())
+  console.log(new CreateCSV(["name","company"],d).getCSV())
+});
