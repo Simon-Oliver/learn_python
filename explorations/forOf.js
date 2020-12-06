@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 let urls = [
   'https://jsonplaceholder.typicode.com/users/1',
   'https://jsonplaceholder.typicode.com/users/2',
@@ -41,6 +43,26 @@ let urls = [
   'https://jsonplaceholder.typicode.com/users/10',
 ];
 
-for (const [key, value] of urls.entries()) {
-  console.log(key, value);
+// for (const [key, value] of urls.entries()) {
+//   console.log(key, value);
+// }
+
+function chunkArray(array, size) {
+  if (array.length <= size) {
+    return array;
+  }
+  return [array.slice(0, size), ...chunkArray(array.slice(size), size)];
 }
+
+//console.log(chunkArray(urls, 4));
+
+const recLog = (num) => {
+  if (num <= 0) {
+    return num;
+  }
+  num -= 1;
+  console.log(num);
+  return recLog(num);
+};
+
+recLog(30);

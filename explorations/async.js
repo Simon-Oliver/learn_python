@@ -44,14 +44,15 @@ let urls = [
   'https://jsonplaceholder.typicode.com/users/10',
 ];
 
-function chunkArray(array, size) {
+// Chunks the array in to defined sizes. Last Array will be the left over items
+const chunkArray = (array, size) => {
   let result = [];
   for (let i = 0; i < array.length; i += size) {
     let chunk = array.slice(i, i + size);
     result.push(chunk);
   }
   return result;
-}
+};
 
 // returns username
 const getData = (user) => {
