@@ -4,7 +4,38 @@ const fs = require('fs');
 const cheerio = require('cheerio');
 const ObjectsToCsv = require('objects-to-csv');
 
-const urls = []
+
+
+const urls = [
+  'https://www.redcross-edu.ch/de/rotes-kreuz-aargau',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-beider-appenzell',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-beider-appenzell',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-baselland',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-basel-stadt',
+  'https://www.redcross-edu.ch/de/srk-kanton-bern',
+  'https://www.redcross-edu.ch/de/freiburgisches-rotes-kreuz',
+  'https://www.redcross-edu.ch/fr/croix-rouge-genevoise',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-glarus',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-graubuenden',
+  'https://www.redcross-edu.ch/fr/croix-rouge-jurassienne',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-luzern',
+  'https://www.redcross-edu.ch/fr/node/41861',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-unterwalden',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-unterwalden',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-schaffhausen',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-schwyz',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-solothurn',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-st-gallen',
+  'https://www.redcross-edu.ch/it/croce-rossa-ticino',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-thurgau',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-uri',
+  'https://www.redcross-edu.ch/fr/croix-rouge-vaudoise',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-wallis',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-zug',
+  'https://www.redcross-edu.ch/de/rotes-kreuz-kanton-zuerich',
+
+]
+
 
 function chunkArray(array, size) {
   let result = [];
@@ -21,11 +52,16 @@ const getData = (user, url) => {
   obj.url = url
   try {
     const $ = cheerio.load(user);
-    const el = $('.eventbox__address').text()
-    obj.address = el.trim().split("\n").map(e => e.replace(/\s+/g, " ").trim()).filter(e => e != "").join(",")
-    obj.tel = $("div[title=\"Telefon\"]").text().split("\n").map(e => e.replace(/\s+/g, " ").trim()).filter(e => e != "")
-    obj.email = $(".link.link--mail").attr("href").replace("mailto:", "")
-    obj.web = $(".link.link--external").attr("href")
+    obj.address = $("div[id='address']").text() ? $("div[id='address']").text().trim().replace(/\n/g, '') : 'N/A';
+    obj.name = $(".title-node").text() ? $(".title-node").text() : 'N/A';
+    obj.phone = $('a[id="contact-tel"]').attr('href') ? $('a[id="contact-tel"]').attr('href').replace("tel:", "") : 'N/A';
+    obj.email = $('a[id="contact-mail"]').attr('href') ? $('a[id="contact-mail"]').attr('href').replace("mailto:", "") : 'N/A';
+    obj.web = $('div[id="websitewrapper"] > a[id="contact-tel"]').attr('href') ? $('div[id="websitewrapper"] > a[id="contact-tel"]').attr('href') : 'N/A';
+    // const el = $('.eventbox__address').text()
+    // obj.address = el.trim().split("\n").map(e => e.replace(/\s+/g, " ").trim()).filter(e => e != "").join(",")
+    // obj.tel = $("div[title=\"Telefon\"]").text().split("\n").map(e => e.replace(/\s+/g, " ").trim()).filter(e => e != "")
+    // obj.email = $(".link.link--mail").attr("href").replace("mailto:", "")
+    // obj.web = $(".link.link--external").attr("href")
   }
   catch (error) {
     obj.error = true
@@ -80,8 +116,8 @@ const batchScrape = async (list, num) => {
 
   for (let b of batch) {
     d = await scrape(b);
-    // console.log([...arr, ...d])
-    savingToFile('carFourthPass.json', [...arr, ...d]);
+    console.log([...arr, ...d])
+    savingToFile('202101_kanton_rk.json', [...arr, ...d]);
     arr = [...arr, ...d];
   }
 
